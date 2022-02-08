@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+</head>
+<style>
+input.menu_btn {
+    position: relative;
+    right: -135px;
+    font-style: oblique;
+    margin-right: 150px;
+    margin-top: 30px;
+    height: 60px;
+    width: 150px;
+    font-size:120%;
+    font-family:Verdana;
+}
+  
+input.pesquisar_btn {
+    position: relative;
+    right: -5px;
+    font-style: oblique;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<body>
+    <input onclick="location.href = 'index.html';" class="menu_btn" type="button" name="menu_menu_btn" value="Menu">
+
+    <input onclick="location.href = 'Livros.html';" class="menu_btn" type="button" name="livros_menu_btn" value="Livros">
+
+    <input onclick="location.href = 'Usuarios.html';" class="menu_btn" disabled type="button" name="Usuarios_menu_btn" value="Usuários">
+
+    <input onclick="location.href = 'Emprestimos.html';" class="menu_btn" type="button" name="emprestimos_menu_btn" value="Empréstimos">
+
+    <br><br><br>
+    <table>
+        <tr>
+          <th>CPF</th>
+          <th>NOME</th>
+          <th>EMPRÉSTIMOS<br>REALIZADOS</th>
+          <th>ÚLTIMO<br>EMPRÉSTIMO</th>
+          <th style="width: 20%;">
+              <input type="text" title="Pesquisar Usuário" placeholder="Pesquisar" formmethod="get">
+              <input formmethod="post" class="pesquisar_btn" type="submit" name="pesquisar_usuarios" value="Buscar">  
+            </th>
+        </tr>
+        <tr>
+            <td>000001</td>
+            <td>Rodrigo de Freitas</td>
+            <td>3</td>
+            <td>Livro B</td>
+        </tr>
+        <tr>
+            <td>000002</td>
+            <td>José Antônio</td>
+            <td>1</td>
+            <td>Livro J</td>
+        </tr>
+        <tr>
+          <td>000003</td>
+          <td>Maria da Conceição</td>
+          <td>5</td>
+          <td>Livro H</td>
+        </tr>
+        <tr>
+          <td>000003</td>
+          <td>Adelia Maria</td>
+          <td>2</td>
+          <td>Livro B</td>
+        </tr>
+      </table>
+</body>
+</html>

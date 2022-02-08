@@ -11,32 +11,37 @@ input.menu_btn {
     position: relative;
     right: -280px;
     font-style: oblique;
-  }
+    margin-right: 150px;
+    margin-top: 40px;
+    height: 60px;
+    width: 150px;
+    font-size:120%;
+    font-family:Verdana;
+}
 
-  button.menu_btn {
+button.menu_btn {
     position: relative;
     right: -280px;
     font-style: oblique;
-  }
+}
 </style>
 
 <body>
-    <input class="menu_btn" type="submit" name="livros_menu_btn" value="Livros" style="height: 60px; width: 150px; font-size:120%; margin-top: 40px; margin-right: 150px; font-family:Verdana">
+    <input onclick="location.href = 'Livros.html';" class="menu_btn" type="button" name="livros_menu_btn" value="Livros">
 
-    <input class="menu_btn" type="submit" name="livros_menu_btn" value="Usuários" style="height: 60px; width: 150px; font-size:120%; margin-right: 150px; font-family:Verdana">
+    <input onclick="location.href = 'Usuarios.html';" class="menu_btn" type="button" name="Usuarios_menu_btn" value="Usuários">
 
-    <input class="menu_btn" type="submit" name="emprestimos_menu_btn" value="Empréstimos" style="height: 60px; width: 150px; font-size:120%; font-family:Verdana">
+    <input onclick="location.href = 'Emprestimos.html';" class="menu_btn" type="button" name="emprestimos_menu_btn" value="Empréstimos">
 
-
+    
     <br><br><br><br><br><br><br><br>
-
     <hr>
     <h1 style="font-size:400%; font-family:calibri; color:rgb(161, 233, 182); text-align:center">
         Biblio System
     </h1>
     <hr>
-
     <br><br><br><br><br>
+
     <button class="menu_btn" type="button" id="novoLivro_menu_btn" class="menu_btn" style="height: 100px; width: 150px; font-size:120%; font-family:Verdana; margin-right: 150px">CADASTRAR<br/>NOVO LIVRO</button>
 
     <button class="menu_btn" type="button" id="novoEmprestimo_menu_btn" class="menu_btn" style="height: 100px; width: 150px; font-size:120%; font-family:Verdana; margin-right: 150px">REALIZAR<br/>EMPRÉSTIMO</button>
