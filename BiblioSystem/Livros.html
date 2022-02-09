@@ -61,11 +61,11 @@ tr:nth-child(even) {
 <body>
     <input onclick="location.href = 'index.html';" class="menu_btn" type="button" name="menu_menu_btn" value="Menu">
 
-    <input onclick="location.href = 'Livros.html';" class="menu_btn" type="button" name="livros_menu_btn" value="Livros">
+    <input onclick="location.href = 'Livros.html';" class="menu_btn" disabled type="button" name="livros_menu_btn" value="Livros">
 
     <input onclick="location.href = 'Usuarios.html';" class="menu_btn" type="button" name="Usuarios_menu_btn" value="Usuários">
 
-    <input onclick="location.href = 'Emprestimos.html';" class="menu_btn" disabled type="button" name="emprestimos_menu_btn" value="Empréstimos">
+    <input onclick="location.href = 'Emprestimos.html';" class="menu_btn" type="button" name="emprestimos_menu_btn" value="Empréstimos">
 
     <br><br><br><br><br>
 
@@ -82,24 +82,24 @@ tr:nth-child(even) {
     <table>
         <tr>
           <th>CÓDIGO</th>
-          <th>USUÁRIO</th>
-          <th>DATA/HORA</th>
-          <th>LIVRO</th>
-          <th>DEVOLUÇÃO</th>
+          <th>NOME</th>
+          <th>QTE</th>
+          <th>EMPRESTADOS</th>
+          <th>DISPONÍVEIS</th>
         </tr>
         <tr>
             <td>0001</td>
-            <td>USUÁRIO A</td>
-            <td>26/08 12:45</td>
-            <td>Livro B</td>
-            <td></td>
+            <td>LIVRO A</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
         </tr>
         <tr>
             <td>0002</td>
-            <td>USUÁRIO B</td>
-            <td>26/08 09:37</td>
-            <td>Livro J</td>
-            <td>25/08 16:30</td>
+            <td>LIVRO J</td>
+            <td>2</td>
+            <td>1</td>
+            <td>0</td>
         </tr>
       </table>
 </body>
