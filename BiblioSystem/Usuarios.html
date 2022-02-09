@@ -17,12 +17,29 @@ input.menu_btn {
     width: 150px;
     font-size:120%;
     font-family:Verdana;
+    cursor: pointer;
 }
   
 input.pesquisar_btn {
     position: relative;
-    right: -5px;
+    right: -5px; 
     font-style: oblique;
+}
+
+input.informacoes_btn {
+    position: relative;
+    right: -130px;
+    margin-right: 15px;
+    font-style: normal;
+    font-size:medium;
+}
+
+input.cadastrar {
+    position: relative;
+    right: -30px;
+    
+    font-style: normal;
+    font-size:medium;
 }
 
 table {
@@ -50,17 +67,28 @@ tr:nth-child(even) {
 
     <input onclick="location.href = 'Emprestimos.html';" class="menu_btn" type="button" name="emprestimos_menu_btn" value="Empréstimos">
 
-    <br><br><br>
+    <br><br><br><br><br>
+
+    <input type="text" placeholder="Pesquisar"  style="width: 30%;" title="Pesquisar Usuário" formmethod="get">
+    <input formmethod="post" class="pesquisar_btn" type="submit" name="pesquisar_usuarios" value="Buscar">  
+
+    <input type="button" class="cadastrar" name="btnCadastrarUsuario" value="CADASTRAR +">
+    <input type="button" class="informacoes_btn" name="btnInformacoesUsuario" value="Informações">
+    <input type="button" class="informacoes_btn" name="btnEditarUsuario" value="Editar">
+    <input type="button" class="informacoes_btn" name="btnExcluirUsuario" value="Excluir">
+
+    <br><br>
+
     <table>
         <tr>
           <th>CPF</th>
           <th>NOME</th>
           <th>EMPRÉSTIMOS<br>REALIZADOS</th>
           <th>ÚLTIMO<br>EMPRÉSTIMO</th>
-          <th style="width: 20%;">
+          <!--<th style="width: 20%;">
               <input type="text" title="Pesquisar Usuário" placeholder="Pesquisar" formmethod="get">
               <input formmethod="post" class="pesquisar_btn" type="submit" name="pesquisar_usuarios" value="Buscar">  
-            </th>
+            </th>-->
         </tr>
         <tr>
             <td>000001</td>
