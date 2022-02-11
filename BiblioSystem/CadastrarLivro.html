@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastramento de Usuário</title>
+</head>
+<style>
+.rotulos {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font: bold;
+    font-size: 22px;
+
+    position: absolute;
+    right: 825px;
+}
+
+input.inputs {
+    
+    position: absolute;
+    right: 570px;
+    height: 24px;
+    
+}
+</style>
+<body style="background-color:wheat;">
+    <br>
+    <h1 style="text-align: center; font-family: Sans-serif; color:black; font-size: 40px;">Cadastramento de Livro</h1>
+
+    <br><br><br><br><br>
+
+    <form action="Livros.html"; method="post">
+        <label for="livro" class="rotulos">Livro:</label>
+        <input class="inputs" type="text" id="livro" name="livro" style="width: 16%; margin-left: 34px;"">
+        <br><br><br>
+        <label for="autor" class="rotulos">Autor:</label>
+        <input class="inputs" type="text" id="autor" name="autor" style="width: 16%; margin-left: 45px;">
+        <br><br><br>
+        <label for="edicao" class="rotulos">Edição:</label>
+        <input class="inputs" type="text" id="edicao" name="edicao" style="width: 16%; margin-left: 14px;">
+        <br><br><br>
+        <label for="volume" class="rotulos">Volume:</label>
+        <input class="inputs" type="text" id="volume" name="volume" style="width: 16%; margin-left: 14px;">
+        <br><br><br>
+        <label for="anoPublicacao" class="rotulos">Ano de Publicação:</label>
+        <input class="inputs" type="number" id="anoPublicacao" name="anoPublicacao" style="width: 16%; margin-left: 14px;">
+        <br><br><br><br><br><br>
+        <input type="submit" value="Enviar" onclick="location.href = 'Livro.html';"" style="cursor: pointer; font-family: Sans-serif; position: relative; right: -440px; width: 120px; height: 35px;">
+      </form>
+    
+</body>
+</html>
