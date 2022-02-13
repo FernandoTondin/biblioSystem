@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações do Empréstimo</title>
+</head>
+<style>
+.rotulos {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font: bold;
+    font-size: 22px;
+
+    position: absolute;
+    right: 825px;
+}
+
+input.inputs {
+    
+    position: absolute;
+    right: 570px;
+    height: 24px;
+    background-color: rgb(248, 248, 248);
+    color: black;
+}
+</style>
+<body style="background-color:wheat;">
+    <br>
+    <h1 style="text-align: center; font-family: Sans-serif; color:black; font-size: 40px;">Informações do Empréstimo</h1>
+
+    <br><br><br><br><br>
+
+    <form action="Emprestimos.html"; method="post">
+        <label for="cdEmprestimo" class="rotulos">Código do Empréstimo:</label>
+        <input class="inputs" disabled type="text" value="A0932GH" id="cdEmprestimo" name="cdEmprestimo" style="width: 16%; margin-left: 34px;"">
+        <br><br><br>
+        <label for="cdExemplar" class="rotulos">Código Exemplar:</label>
+        <input class="inputs" disabled value="DSG3R2C" type="text" id="cdExemplar" name="cdExemplar" style="width: 16%; margin-left: 45px;">
+        <br><br><br>
+        <label for="cdCliente" class="rotulos">Código Cliente:</label>
+        <input class="inputs" disabled value="DSG3R2C" type="text" id="cdCliente" name="cdcdCliente" style="width: 16%; margin-left: 45px;">
+        <br><br><br>
+        <label for="dtEmprestimo" class="rotulos">Data Empréstimo:</label>
+        <input class="inputs" disabled value="DSG3R2C" type="text" id="dtEmprestimo" name="dtEmprestimo" style="width: 16%; margin-left: 45px;">
+        <br><br><br>
+        <label for="dtDevolucao" class="rotulos">Data Devolução:</label>
+        <input class="inputs" disabled value="DSG3R2C" type="text" id="dtDevolucao" name="dtDevolucao" style="width: 16%; margin-left: 45px;">
+        <br><br><br>
+        <label for="prazoDevolucao" class="rotulos">Prazo Devolução:</label>
+        <input class="inputs" disabled value="DSG3R2C" type="text" id="prazoDevolucao" name="prazoDevolucao" style="width: 16%; margin-left: 45px;">
+        <br><br><br><br><br><br>
+        <input type="submit" value="Voltar" style="cursor: pointer; font-family: Sans-serif; position: relative; right: -440px; width: 120px; height: 35px;">
+      </form>
+
+    <!--
+        <p class="paragrafo" style="font-size:x-large;">
+            Nome
+            <input type="text" class="entrada" style="width: 30%;" title="Cadastrar Usuário" formmethod="post">
+        </p>
+        
+
+        <p style="font-size:x-large">
+            CPF
+            <input type="text" class="entrada" style="width: 30%;" title="Cadastrar Usuário" formmethod="post">
+        </p>
+
+        <p style="font-size:x-large">
+            Endereço
+            <input type="text" class="entrada" style="width: 30%;" title="Cadastrar Usuário" formmethod="post">
+        </p>
+    -->
+    
+</body>
+</html>

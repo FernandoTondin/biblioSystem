@@ -23,6 +23,10 @@ input.inputs {
     height: 24px;
     
 }
+textarea.input {
+    position: absolute;
+    right: 570px;
+}
 </style>
 <body style="background-color:wheat;">
     <br>
@@ -38,8 +42,8 @@ input.inputs {
         <input class="inputs" type="text" minlength="11" maxlength="11" id="cpf" name="cpf" style="width: 16%; margin-left: 45px;"><br><br>
         <br>
         <label for="endereco" class="rotulos">Endereço:</label>
-        <input class="inputs" type="text" id="endereco" name="endereco" style="width: 16%; margin-left: 14px;"><br><br>
-        <br><br><br><br>
+        <textarea class="input" type="text" id="descEnderecoCliente" name="descEnderecoCliente" rows="6" cols="50" style="width: 16%; margin-left: 14px;"></textarea>
+        <br><br><br><br><br><br><br><br><br>
         <input type="submit" value="Enviar" style="cursor: pointer; font-family: Sans-serif; position: relative; right: -440px; width: 120px; height: 35px;">
       </form>
 
