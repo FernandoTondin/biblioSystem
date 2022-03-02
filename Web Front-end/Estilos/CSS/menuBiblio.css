@@ -1,0 +1,68 @@
+body {
+    background-color: wheat;
+}
+
+@font-face {
+    font-family: 'Biblio';
+    src: 
+    /*url('Zector.otf') format('opentype'),*/
+        url('../Fontes/Roboto-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-size: normal;
+}
+
+.top_menu_btn .botao{
+    position: relative;
+    right: -280px;
+    /*font-style: oblique;*/
+    margin-right: 150px;
+    margin-top: 40px;
+    height: 60px;
+    width: 170px;
+    font-size:120%;
+    font-family:Verdana;
+    cursor: pointer;
+    background-color: aliceblue;
+}
+
+.botton_menu_btn .botao{
+    position: relative;
+    right: -280px;
+    /*font-style: oblique;*/
+    cursor: pointer;
+    background-color: aliceblue;
+
+    height: 100px; width: 150px; font-size:120%; font-family:Verdana; margin-right: 150px;
+}
+
+.retangulo {
+  height: 150px;
+  width: 410px;
+  background-color: white;
+  border-radius:7px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  position: relative;
+  right: -475px;
+}
+
+.botao:hover {
+  background-color: #dfe8f0;
+}
+
+.Titulo1 {
+    font-size:150%; 
+    font-family:Biblio; 
+    line-height: 1px; 
+    color: wheat;
+}
+
+.Titulo2 {
+    font-size:50%; 
+    font-family:Biblio;
+    line-height: 1px;
+    position: relative;
+    right: -37px;
+    color: wheat;
+}
