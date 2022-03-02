@@ -4,51 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="menuBiblio.css" type="text/css" media="screen"/>
     <title>Biblio System</title>
 </head>
-<style>
-input.menu_btn {
-    position: relative;
-    right: -280px;
-    font-style: oblique;
-    margin-right: 150px;
-    margin-top: 40px;
-    height: 60px;
-    width: 150px;
-    font-size:120%;
-    font-family:Verdana;
-    cursor: pointer;
-}
-
-button.menu_btn {
-    position: relative;
-    right: -280px;
-    font-style: oblique;
-    cursor: pointer;
-}
-</style>
 
 <body>
-    <input onclick="location.href = 'Livros.html';" class="menu_btn" type="button" name="livros_menu_btn" value="Livros">
-
-    <input onclick="location.href = 'Clientes.html';" class="menu_btn" type="button" name="Clientes_menu_btn" value="Clientes">
-
-    <input onclick="location.href = 'Emprestimos.html';" class="menu_btn" type="button" name="emprestimos_menu_btn" value="Empréstimos">
-
     
+    <div class="top_menu_btn">
+        <input onclick="location.href = 'Livros.html';" class="botao" type="button" name="livros_menu_btn" value="LIVROS"">
+
+        <input onclick="location.href = 'Clientes.html';" class="botao" type="button" name="Clientes_menu_btn" value="CLIENTES">
+
+        <input onclick="location.href = 'Emprestimos.html';" class="botao" type="button" name="emprestimos_menu_btn" value="EMPRÉSTIMOS">
+    </div>
+
     <br><br><br><br><br><br><br><br>
-    <hr>
-    <h1 style="font-size:400%; font-family:calibri; color:rgb(161, 233, 182); text-align:center">
-        Biblio System
-    </h1>
-    <hr>
+
+     <div class="retangulo">
+        <h1>
+            <p class="Titulo1">BIBLIO</p>
+            <p class="Titulo2">SYSTEM</p>
+        </h1>
+     </div>
+    
     <br><br><br><br><br>
 
-    <button class="menu_btn" type="button" onclick="location.href = 'CadastrarLivro.html';"" id="novoLivro_menu_btn" class="menu_btn" style="height: 100px; width: 150px; font-size:120%; font-family:Verdana; margin-right: 150px">CADASTRAR<br/>NOVO LIVRO</button>
+    <div class="botton_menu_btn">
+        <button class="botao" type="button" onclick="location.href = 'CadastrarLivro.html';"" id="novoLivro_menu_btn">CADASTRAR<br/>NOVO LIVRO</button>
 
-    <button class="menu_btn" type="button" onclick="location.href = 'CadastrarEmprestimo.html';"" id="novoEmprestimo_menu_btn" class="menu_btn" style="height: 100px; width: 150px; font-size:120%; font-family:Verdana; margin-right: 150px">REALIZAR<br/>EMPRÉSTIMO</button>
+        <button class="botao" type="button" onclick="location.href = 'CadastrarEmprestimo.html';"" id="novoEmprestimo_menu_btn">REALIZAR<br/>EMPRÉSTIMO</button>
 
-    <button class="menu_btn" type="button" onclick="location.href = 'CadastrarCliente.html';"" id="novoCliente_menu_btn" class="menu_btn" style="height: 100px; width: 180px; font-size:120%; font-family:Verdana; margin-right: 150px">CADASTRAR<br/>NOVO CLIENTE</button>
+        <button class="botao" type="button" onclick="location.href = 'CadastrarCliente.html';"" id="novoCliente_menu_btn" style="height: 100px; width: 180px; font-size:120%; font-family:Verdana; margin-right: 150px">CADASTRAR<br/>NOVO CLIENTE</button>
+    </div>
 
 </body>
 </html>

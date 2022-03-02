@@ -4,54 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Informacoes.css" type="text/css" media="screen"/>
     <title>Informações do Empréstimo</title>
 </head>
-<style>
-.rotulos {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font: bold;
-    font-size: 22px;
 
-    position: absolute;
-    right: 825px;
-}
+<body>
 
-input.inputs {
-    
-    position: absolute;
-    right: 570px;
-    height: 24px;
-    background-color: rgb(248, 248, 248);
-    color: black;
-}
-</style>
-<body style="background-color:wheat;">
     <br>
-    <h1 style="text-align: center; font-family: Sans-serif; color:black; font-size: 40px;">Informações do Empréstimo</h1>
+    <h1>INFORMAÇÕES DO EMPRÉSTIMO</h1>
 
     <br><br><br><br><br>
 
     <form action="Emprestimos.html"; method="post">
-        <label for="cdEmprestimo" class="rotulos">Código do Empréstimo:</label>
+        <label for="cdEmprestimo" class="rotulos">CÓDIGO DO EMPRÉSTIMO:</label>
         <input class="inputs" disabled type="text" value="A0932GH" id="cdEmprestimo" name="cdEmprestimo" style="width: 16%; margin-left: 34px;"">
         <br><br><br>
-        <label for="cdExemplar" class="rotulos">Código Exemplar:</label>
+        <label for="cdExemplar" class="rotulos">CÓDIGO DO EXEMPLAR:</label>
         <input class="inputs" disabled value="DSG3R2C" type="text" id="cdExemplar" name="cdExemplar" style="width: 16%; margin-left: 45px;">
         <br><br><br>
-        <label for="cdCliente" class="rotulos">Código Cliente:</label>
+        <label for="cdCliente" class="rotulos">CÓDIGO DO CLIENTE:</label>
         <input class="inputs" disabled value="DSG3R2C" type="text" id="cdCliente" name="cdcdCliente" style="width: 16%; margin-left: 45px;">
         <br><br><br>
-        <label for="dtEmprestimo" class="rotulos">Data Empréstimo:</label>
+        <label for="dtEmprestimo" class="rotulos">DATA EMPRÉSTIMO:</label>
         <input class="inputs" disabled value="DSG3R2C" type="text" id="dtEmprestimo" name="dtEmprestimo" style="width: 16%; margin-left: 45px;">
         <br><br><br>
-        <label for="dtDevolucao" class="rotulos">Data Devolução:</label>
+        <label for="dtDevolucao" class="rotulos">DATA DEVOLUÇÃO:</label>
         <input class="inputs" disabled value="DSG3R2C" type="text" id="dtDevolucao" name="dtDevolucao" style="width: 16%; margin-left: 45px;">
         <br><br><br>
-        <label for="prazoDevolucao" class="rotulos">Prazo Devolução:</label>
+        <label for="prazoDevolucao" class="rotulos">PRAZO DEVOLUÇÃO:</label>
         <input class="inputs" disabled value="DSG3R2C" type="text" id="prazoDevolucao" name="prazoDevolucao" style="width: 16%; margin-left: 45px;">
         <br><br><br><br><br><br>
-        <input type="submit" id="voltar" value="Voltar" onclick="location.href = 'Emprestimos.html';"" style="cursor: pointer; font-family: Sans-serif; position: relative; right: -440px; width: 120px; height: 35px;">
-      </form>
+        <input class="voltar" type="submit" id="voltar" value="Voltar" onclick="location.href = 'Emprestimos.html';"">
+    </form>
 
 </body>
 </html>

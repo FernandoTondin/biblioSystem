@@ -1,0 +1,60 @@
+body {
+    background-color: wheat;
+}
+
+.menu_btn .botao{
+    position: relative;
+    right: -135px;
+    /*font-style: oblique;*/
+    margin-right: 150px;
+    margin-top: 30px;
+    height: 60px;
+    width: 170px;
+    font-size:120%;
+    font-family:Verdana;
+    cursor: pointer;
+    background-color: aliceblue;
+}
+
+.botao:hover {
+    background-color: #dfe8f0;
+}
+  
+input.pesquisar_btn {
+    position: relative;
+    right: -5px; 
+    /*font-style: oblique;*/
+}
+
+input.informacoes_btn {
+    position: relative;
+    right: -130px;
+    margin-right: 15px;
+    font-style: normal;
+    font-size:medium;
+}
+
+input.cadastrar {
+    position: relative;
+    right: -30px;
+    
+    font-style: normal;
+    font-size:medium;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid rgb(0, 0, 0);
+  text-align: left;
+  padding: 8px;
+  
+}
+
+tr:nth-child(even) {
+  background-color: rgb(250, 240, 219);
+}
