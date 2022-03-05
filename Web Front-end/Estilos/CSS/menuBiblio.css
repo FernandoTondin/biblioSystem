@@ -55,7 +55,7 @@ body {
     font-size:150%; 
     font-family:Biblio; 
     line-height: 1px; 
-    color: wheat;
+    color: black;
 }
 
 .Titulo2 {
@@ -64,5 +64,5 @@ body {
     line-height: 1px;
     position: relative;
     right: -37px;
-    color: wheat;
+    color: black;
 }
