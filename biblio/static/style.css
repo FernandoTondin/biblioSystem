@@ -1,0 +1,180 @@
+body {
+    background-color: wheat;
+}
+
+@font-face {
+    font-family: 'Biblio';
+    src: 
+    /*url('Zector.otf') format('opentype'),*/
+        url('fontes/Roboto-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-size: normal;
+}
+
+h1 {
+    text-align: center; font-family: Biblio; font-size: 40px;
+}
+
+.rotulos {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font: bold;
+    font-size: 22px;
+
+    position: absolute;
+    right: 825px;
+}
+
+textarea.input {
+    position: absolute;
+    right: 570px;
+    background-color: rgb(248, 248, 248);
+    color: black;
+}
+
+input.inputs {
+    
+    position: absolute;
+    right: 570px;
+    height: 24px;
+    background-color: rgb(248, 248, 248);
+    color: black;
+}
+
+.voltar {
+    cursor: pointer; 
+    font-family: Sans-serif; 
+    position: relative; 
+    right: -440px; 
+    width: 120px; 
+    height: 35px; 
+    background-color: aliceblue;
+}
+
+.top_menu_btn .botao{
+    position: relative;
+    right: -280px;
+    /*font-style: oblique;*/
+    margin-right: 150px;
+    margin-top: 40px;
+    height: 60px;
+    width: 170px;
+    font-size:120%;
+    font-family:Verdana;
+    cursor: pointer;
+    background-color: aliceblue;
+}
+
+.botton_menu_btn .botao{
+    position: relative;
+    right: -280px;
+    /*font-style: oblique;*/
+    cursor: pointer;
+    background-color: aliceblue;
+
+    height: 100px; width: 150px; font-size:120%; font-family:Verdana; margin-right: 150px;
+}
+
+.retangulo {
+  height: 150px;
+  width: 410px;
+  background-color: white;
+  border-radius:7px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  position: relative;
+  right: -475px;
+}
+
+.botao:hover {
+  background-color: #dfe8f0;
+}
+
+.Titulo1 {
+    font-size:150%; 
+    font-family:Biblio; 
+    line-height: 1px; 
+    color: black;
+}
+
+.Titulo2 {
+    font-size:50%; 
+    font-family:Biblio;
+    line-height: 1px;
+    position: relative;
+    right: -37px;
+    color: black;
+}
+
+.menu_btn .botao{
+    position: relative;
+    right: -135px;
+    /*font-style: oblique;*/
+    margin-right: 150px;
+    margin-top: 30px;
+    height: 60px;
+    width: 170px;
+    font-size:120%;
+    font-family:Verdana;
+    cursor: pointer;
+    background-color: aliceblue;
+}
+
+input.pesquisar_btn {
+    position: relative;
+    right: -5px; 
+    /*font-style: oblique;*/
+}
+
+input.informacoes_btn {
+    position: relative;
+    right: -130px;
+    margin-right: 15px;
+    font-style: normal;
+    font-size:medium;
+}
+
+input.cadastrar {
+    position: relative;
+    right: -30px;
+    
+    font-style: normal;
+    font-size:medium;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid rgb(0, 0, 0);
+  text-align: left;
+  padding: 8px;
+  
+}
+
+tr:nth-child(even) {
+  background-color: rgb(250, 240, 219);
+}
+
+.enviar {
+    cursor: pointer; 
+    background-color: aliceblue; 
+    font-family: Sans-serif; 
+    position: relative; 
+    right: -440px; 
+    width: 120px; 
+    height: 35px;
+}
+
+.cancelar {
+    cursor: pointer; 
+    background-color: aliceblue; 
+    font-family: Sans-serif; 
+    position: relative; 
+    right: -640px; 
+    width: 120px; 
+    height: 35px;
+}
