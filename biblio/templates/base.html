@@ -1,0 +1,22 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - biblio</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h3>Biblio</h3>
+  <ul>
+    <a href="{{ url_for('home') }}">home</a>
+    <a href="{{ url_for('cadastro.livro') }}">livro</a>
+    <a href="{{ url_for('cadastro.cliente') }}">cliente</a>
+    <a href="{{ url_for('cadastro.emprestimo') }}">emprestimo</a>
+    <a href="{{ url_for('cadastro.exemplar') }}">exemplar</a>
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

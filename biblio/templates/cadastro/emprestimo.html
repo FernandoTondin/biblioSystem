@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Cadastrar Empréstimo{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form action="Emprestimos.html"; method="post">
+    <label for="cdExemplar" class="rotulos">CÓDIGO DO EXEMPLAR:</label>
+    <input class="inputs" type="text" id="cdExemplar" name="cdExemplar" style="width: 16%; margin-left: 34px;""><br><br>
+    <br>
+    <label for="cdCliente" class="rotulos">CÓDIGO DO CLIENTE:</label>
+    <input class="inputs" type="text" id="cdCliente" name="cdCliente" style="width: 16%; margin-left: 45px;"><br><br>
+    <br><br><br><br>
+    <input class="enviar" type="submit" value="Enviar" id="enviar">
+    <input class="cancelar" type="submit" value="Cancelar" id="cancelar">
+  </form>
+{% endblock %}

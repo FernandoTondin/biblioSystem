@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Cadastrar Cliente{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form action="Clientes.html"; method="post">
+    <label for="nome" class="rotulos">NOME:</label>
+    <input class="inputs" type="text" id="nome" name="nome" style="width: 16%; margin-left: 34px;"><br><br>
+    <br>
+    <label for="cpf" class="rotulos">CPF:</label>
+    <input class="inputs" type="text" minlength="11" maxlength="11" id="cpf" name="cpf" style="width: 16%; margin-left: 45px;"><br><br>
+    <br>
+    <label for="endereco" class="rotulos">ENDEREÇO:</label>
+    <textarea class="input" type="text" id="descEnderecoCliente" name="descEnderecoCliente" rows="6" cols="50" style="width: 16%; margin-left: 14px;"></textarea>
+    <br><br><br><br><br><br><br><br><br>
+    <input class="enviar" type="submit" value="Enviar" id="enviar">
+    <input class="cancelar" type="submit" value="Cancelar" id="cancelar">
+  </form>
+{% endblock %}
