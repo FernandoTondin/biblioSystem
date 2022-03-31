@@ -1,16 +1,14 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - biblio</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h3>Biblio</h3>
-  <ul>
-    <a href="{{ url_for('home') }}">home</a>
-    <a href="{{ url_for('cadastro.livro') }}">livro</a>
-    <a href="{{ url_for('cadastro.cliente') }}">cliente</a>
-    <a href="{{ url_for('cadastro.emprestimo') }}">emprestimo</a>
-    <a href="{{ url_for('cadastro.exemplar') }}">exemplar</a>
-  </ul>
-</nav>
+{%if request.path != '/' %}
+  <nav>
+    <h1>Biblio</h1>
+    <ul style="text-align:center;">
+      <a style="text-align:center; width: auto;" href="{{ url_for('home') }}">home</a>
+    </ul>
+  </nav>
+{% endif %}
 <section class="content">
   <header>
     {% block header %}{% endblock %}

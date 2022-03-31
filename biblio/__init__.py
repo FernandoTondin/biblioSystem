@@ -38,5 +38,8 @@ def create_app(test_config=None):
     from . import cadastro
     app.register_blueprint(cadastro.bp)
 
+    from . import view
+    app.register_blueprint(view.bp)
+
     return app
 

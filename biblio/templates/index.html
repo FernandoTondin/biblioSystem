@@ -6,11 +6,11 @@
 
 {% block content %}
 <div class="top_menu_btn">
-    <input onclick="location.href = 'Livros.html';" class="botao" type="button" name="livros_menu_btn" value="LIVROS">
+    <a href="{{ url_for('view.livro') }}" class="botao" name="livros_menu_btn">LIVROS</a>
 
-    <input onclick="location.href = 'Clientes.html';" class="botao" type="button" name="Clientes_menu_btn" value="CLIENTES">
+    <a href="{{ url_for('view.cliente') }}" class="botao" name="livros_menu_btn">CLIENTES</a>
 
-    <input onclick="location.href = 'Emprestimos.html';" class="botao" type="button" name="emprestimos_menu_btn" value="EMPRÉSTIMOS">
+    <a href="{{ url_for('view.emprestimo') }}" class="botao" name="livros_menu_btn">EMPRÉSTIMOS</a>
 </div>
 
 <br><br>
@@ -25,10 +25,10 @@
 <br><br>
 
 <div class="botton_menu_btn">
-    <button class="botao" type="button" onclick="location.href = 'CadastrarLivro.html';" id="novoLivro_menu_btn">CADASTRAR<br/>NOVO LIVRO</button>
+    <a class="botao" href="{{ url_for('cadastro.livro') }}" id="novoLivro_menu_btn">CADASTRAR NOVO LIVRO</a>
 
-    <button class="botao" type="button" onclick="location.href = 'CadastrarEmprestimo.html';" id="novoEmprestimo_menu_btn">REALIZAR<br/>EMPRÉSTIMO</button>
+    <a class="botao" href="{{ url_for('cadastro.emprestimo') }}" id="novoEmprestimo_menu_btn">REALIZAR EMPRÉSTIMO</button>
 
-    <button class="botao" type="button" onclick="location.href = 'CadastrarCliente.html';" id="novoCliente_menu_btn" style="height: 100px; width: 180px; font-size:120%; font-family:Verdana; margin-right: 150px">CADASTRAR<br/>NOVO CLIENTE</button>
+    <a class="botao" href="{{ url_for('cadastro.cliente') }}" id="novoCliente_menu_btn">CADASTRAR NOVO CLIENTE</button>
 </div>
 {% endblock %}
