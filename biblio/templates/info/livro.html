@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Cadastrar Livro{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    {% for post in posts %}
+        <form method="post">
+            <input class="inputs" type="text" id="cod" name="cod" style="width: 16%; margin-left: 34px;" value="{{ post['cod_livro'] }}" hidden>
+            <label for="livro" class="rotulos">LIVRO:</label>
+            <input class="inputs" type="text" id="livro" name="livro" style="width: 16%; margin-left: 34px;" value="{{ post['tit_livro'] }}">
+            <br><br><br>
+            <label for="autor" class="rotulos">AUTOR:</label>
+            <input class="inputs" type="text" id="autor" name="autor" style="width: 16%; margin-left: 45px;" value="{{ post['nom_autor'] }}">
+            <br><br><br>
+            <label for="edicao" class="rotulos">EDIÇÃO:</label>
+            <input class="inputs" type="text" id="edicao" name="edicao" style="width: 16%; margin-left: 14px;" value="{{ post['num_volume'] }}">
+            <br><br><br>
+            <label for="volume" class="rotulos">VOLUME:</label>
+            <input class="inputs" type="text" id="volume" name="volume" style="width: 16%; margin-left: 14px;" value="{{ post['num_edicao'] }}">
+            <br><br><br>
+            <label for="anoPublicacao" class="rotulos">ANO DE PUBLICAÇÃO:</label>
+            <input class="inputs" type="number" id="anoPublicacao" name="anoPublicacao" style="width: 16%; margin-left: 14px;" value="{{ post['anoPublic'] }}">
+            <br><br><br><br><br><br>
+            <input class="enviar" type="submit" value="Enviar" id="enviar">
+            <input class="cancelar" type="submit" value="Cancelar" id="cancelar">
+        </form>
+    {% endfor %}
+{% endblock %}
