@@ -54,7 +54,7 @@ input.inputs {
     position: relative;
     right: -280px;
     /*font-style: oblique;*/
-    margin-right: 150px;
+    margin-right: auto;
     margin-top: 40px;
     height: 60px;
     width: 170px;
@@ -62,12 +62,20 @@ input.inputs {
     font-family:Verdana;
     cursor: pointer;
     background-color: aliceblue;
+
+    height: 100px; width: 150px; font-size:120%; font-family:Verdana; margin-right: 150px;
 }
 
 .botton_menu_btn .botao{
     position: relative;
     right: -280px;
     /*font-style: oblique;*/
+    margin-right: auto;
+    margin-top: 40px;
+    height: 60px;
+    width: 170px;
+    font-size:120%;
+    font-family:Verdana;
     cursor: pointer;
     background-color: aliceblue;
 

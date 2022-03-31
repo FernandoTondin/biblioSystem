@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}livros{% endblock %}</h1>
+    {% if g.user %}
+        <a class="action" href="{{ url_for('livro.index') }}">New</a>
+    {% endif %}
+{% endblock %}
+  
+
+{% block content %}
+    <form method="post">
+        <input name="title" id="title" value="{{ request.form['title'] }}">
+        <input type="submit" name="submit_btn" value="Pesquisar">
+        <a href="{{ url_for('view.livro') }}">Limpar</a>
+    </form>
+    <table>
+    <tr>
+        <th>CÓDIGO</th>
+        <th>NOME</th>
+        <th>CPF</th>
+        <th>ENDEREÇO</th>
+        <th>INFO</th>
+    </tr>
+    {% for post in posts %}
+        <tr>
+            <td>{{ post['cod_cliente'] }}</td>
+            <td>{{ post['nome_cliente'] }}</td>
+            <td>{{ post['CPF'] }}</td>
+            <td>{{ post['dsc_endereco_cliente'] }}</td>
+            <td>
+                <a href="{{ url_for('info.cliente') }}?cod={{ post['cod_cliente'] }}">📝</a>
+                <a>❌</a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

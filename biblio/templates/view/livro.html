@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}livros{% endblock %}</h1>
+    {% if g.user %}
+        <a class="action" href="{{ url_for('livro.index') }}">New</a>
+    {% endif %}
+{% endblock %}
+  
+
+{% block content %}
+    <form method="post">
+        <label for="titulo">titulo</label>
+        <input name="title" id="title" value="{{ request.form['title'] }}">
+        <input type="submit" name="submit_btn" value="Pesquisar">
+    </form>
+    <table>
+    <tr>
+        <th>CÓDIGO</th>
+        <th>NOME</th>
+        <th>Autor</th>
+        <th>volume</th>
+        <th>edição</th>
+        <th>Ano de publicação</th>
+        <th>QTE</th>
+        <th>EMPRESTADOS</th>
+        <th>DISPONÍVEIS</th>
+        <th>INFO</th>
+    </tr>
+    {% for post in posts %}
+        <tr>
+            <td>{{ post['cod_livro'] }}</td>
+            <td>{{ post['tit_livro'] }}</td>
+            <td>{{ post['nom_autor'] }}</td>
+            <td>{{ post['num_volume'] }}</td>
+            <td>{{ post['num_edicao'] }}</td>
+            <td>{{ post['anoPublic'] }}</td>
+            <td>{{ post['qnt'] }}</td>
+            <td>{{ post['qnt']-post['disp'] }}</td>
+            <td>{{ post['disp'] }}</td>
+            <td>
+                <a href="{{ url_for('info.livro') }}?cod={{ post['cod_livro'] }}">📝</a>
+                <a>❌</a>
+                <a>✅</a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
