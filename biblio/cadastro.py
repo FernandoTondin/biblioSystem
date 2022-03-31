@@ -39,6 +39,11 @@ def livro():
                     (titulo, autor, volume, edicao,publicacao),
                 )
                 db.commit()
+                db.execute('INSERT INTO exemplares (cod_livro,num_exemplar,bool_disponivel)'
+                ' SELECT cod_livro,0 as num_exemplar,1 as bool_disponivel FROM livros'
+                ' WHERE tit_livro=? AND num_volume=? AND num_edicao=?',
+                (titulo, volume, edicao))
+                db.commit()
             except db.IntegrityError:
                 error = f"livro {titulo} is already registered."
             else:
@@ -72,7 +77,7 @@ def cliente():
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"livro {nome} is already registered."
+                error = f"cliente {nome} is already registered."
             else:
                 return redirect(url_for("home"))
 
@@ -86,6 +91,10 @@ def emprestimo():
         cdExemplar = request.form['cdExemplar']
         cdCliente = request.form['cdCliente']
         db = get_db()
+        data = dt.date.today()
+        dataemp = data.strftime("%Y-%m-%d")
+        prazo = data + dt.timedelta(5)
+        prazoemp = prazo.strftime("%Y-%m-%d")
         error = None
 
         if not cdExemplar:
@@ -96,14 +105,14 @@ def emprestimo():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp) VALUES (?, ?, ?)",
-                    (cdExemplar, cdCliente, dt.date.today().strftime("%Y-%m-%d")),
+                    "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp, prazo_devol) VALUES (?, ?, ?, ?)",
+                    (cdExemplar, cdCliente, dataemp, prazoemp),
                 )
                 db.commit()
             except db.IntegrityError:
                 error = f"livro {cdExemplar} is already registered."
-            else:
-                return redirect(url_for("home"))
+        else:
+            return redirect(url_for("home"))
 
         flash(error)
 
