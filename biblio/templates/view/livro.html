@@ -11,8 +11,8 @@
 {% block content %}
     <form method="post">
         <label for="titulo">titulo</label>
-        <input name="title" id="title" value="{{ request.form['title'] }}">
-        <input type="submit" name="submit_btn" value="Pesquisar">
+        <input name="pesquisa" id="pesquisa" value="{{ request.form['pesquisa'] }}">
+        <input type="submit" name="btn_pesquisa" value="Pesquisar">
     </form>
     <table>
     <tr>
@@ -39,9 +39,13 @@
             <td>{{ post['qnt']-post['disp'] }}</td>
             <td>{{ post['disp'] }}</td>
             <td>
-                <a href="{{ url_for('info.livro') }}?cod={{ post['cod_livro'] }}">📝</a>
-                <a>❌</a>
-                <a>✅</a>
+                <form method="post">
+                    <input type="text" name="cod" value="{{ post['cod_livro'] }}" style="display: none;">
+                    <input type="submit" value="📝" name="info">
+                    <input type="submit" value="❌" name="deletar">
+                    <input type="submit" value="✅" name="ok">
+                </form>
+                
             </td>
         </tr>
     {% endfor %}

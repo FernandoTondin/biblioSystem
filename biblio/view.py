@@ -13,9 +13,35 @@ bp = Blueprint('view', __name__, url_prefix='/view')
 @bp.route('/livro', methods=('GET', 'POST'))
 def livro():
     if request.method == 'POST':
-        pesquisa = request.form['title']
         db = get_db()
-        if pesquisa != "":
+        if "info" in request.form.keys():
+            cod = int(request.form['cod'])
+            posts =db.execute(
+            'Select * FROM livros'
+            ' WHERE cod_livro = ?',
+            (cod,),
+            ).fetchall()
+            return redirect(url_for('info.livro'),code=307)
+        elif "deletar" in request.form.keys():
+            cod = int(request.form['cod'])
+            db.execute("DELETE FROM livros WHERE cod_livro = ?",(cod,))
+            db.commit()
+            exemps = db.execute("SELECT cod_exemplar from exemplares WHERE cod_livro = ?",(cod,)).fetchall()
+            for exemp in exemps:
+                db.execute("DELETE FROM emprestimos WHERE cod_exemplar = ?",(exemp["cod_exemplar"],))
+                db.commit()
+            db.execute("DELETE FROM exemplares WHERE cod_livro = ?",(cod,))
+            db.commit()
+            posts = db.execute(
+                'Select livros.cod_livro, tit_livro, nom_autor, num_volume, num_edicao, anoPublic, '
+                '(select count(*) from exemplares where exemplares.cod_livro = livros.cod_livro) as QNT, '
+                '(select sum(bool_disponivel) from exemplares where exemplares.cod_livro = livros.cod_livro) as DISP '
+                'from livros '
+                'ORDER BY tit_livro ASC'
+            ).fetchall()
+            db.commit()
+        elif "btn_pesquisa" in request.form.keys():
+            pesquisa = request.form['pesquisa']
             pesquisa = "%"+pesquisa+"%"
             posts =db.execute(
                 'Select livros.cod_livro, tit_livro, nom_autor, num_volume, num_edicao, anoPublic, '
@@ -36,6 +62,7 @@ def livro():
                 ' ORDER BY tit_livro ASC',
                 ).fetchall()
             db.commit()
+        return render_template('view/livro.html', posts=posts)
     else:
         db = get_db()
         posts = db.execute(

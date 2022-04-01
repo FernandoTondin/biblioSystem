@@ -11,53 +11,60 @@ bp = Blueprint('info', __name__, url_prefix='/info')
 
 @bp.route('/livro', methods=('GET', 'POST'))
 def livro():
-    if request.method == 'GET':
-        cod = int(request.args.get('cod'))
-        print(type(cod))
-        print(cod)
-        db = get_db()
-        posts =db.execute(
-            'Select * FROM livros'
-            ' WHERE cod_livro = ?',
-            (cod,),
-            ).fetchall()
-        return render_template('info/livro.html', posts=posts)
+    
     if request.method == 'POST':
-        cod = request.form['cod']
-        titulo = request.form['livro']
-        autor = request.form['autor']
-        volume = request.form['volume']
-        edicao = request.form['edicao']
-        publicacao = request.form['anoPublicacao']
         db = get_db()
-        error = None
+        print(request.form.keys())
+        if "info" in request.form.keys():
 
-        if not titulo:
-            error = 'titulo is required.'
-        elif not autor:
-            error = 'autor is required.'
-        elif not volume:
-            error = 'volume is required.'
-        elif not edicao:
-            error = 'edicao is required.'
-        elif not publicacao:
-            error = 'publicacao is required.'
+            cod = request.form['cod']
+            print(type(cod))
+            print(cod)
+            db = get_db()
+            posts =db.execute(
+                'Select * FROM livros'
+                ' WHERE cod_livro = ?',
+                (cod,),
+                ).fetchall()
+            return render_template('info/livro.html', posts=posts)
+        
+        if "enviar" in request.form.keys():
+            cod = request.form['cod']
+            titulo = request.form['livro']
+            autor = request.form['autor']
+            volume = request.form['volume']
+            edicao = request.form['edicao']
+            publicacao = request.form['anoPublicacao']
+            db = get_db()
+            error = None
 
-        if error is None:
-            try:
-                db.execute(
-                    'UPDATE livros'
-                    ' SET tit_livro = ?, nom_autor = ?, num_volume = ?, num_edicao = ?, anoPublic = ?'
-                    ' WHERE cod_livro = ?;',
-                    (titulo, autor, volume, edicao,publicacao,cod),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"livro {titulo} is already registered."
-            else:
-                return redirect(url_for("view.livro"))
+            if not titulo:
+                error = 'titulo is required.'
+            elif not autor:
+                error = 'autor is required.'
+            elif not volume:
+                error = 'volume is required.'
+            elif not edicao:
+                error = 'edicao is required.'
+            elif not publicacao:
+                error = 'publicacao is required.'
 
-        flash(error)
+            if error is None:
+                try:
+                    db.execute(
+                        'UPDATE livros'
+                        ' SET tit_livro = ?, nom_autor = ?, num_volume = ?, num_edicao = ?, anoPublic = ?'
+                        ' WHERE cod_livro = ?;',
+                        (titulo, autor, volume, edicao,publicacao,cod),
+                    )
+                    db.commit()
+                except db.IntegrityError:
+                    error = f"livro {titulo} is already registered."
+                else:
+                    return redirect(url_for("view.livro"))
+
+            flash(error)
+        
     return render_template('info/livro.html')
 
 @bp.route('/cliente', methods=('GET', 'POST'))
