@@ -22,8 +22,7 @@
         <th>volume</th>
         <th>edição</th>
         <th>Ano de publicação</th>
-        <th>QTE</th>
-        <th>EMPRESTADOS</th>
+        <th>QUANTIDADE</th>
         <th>DISPONÍVEIS</th>
         <th>INFO</th>
     </tr>
@@ -36,14 +35,13 @@
             <td>{{ post['num_edicao'] }}</td>
             <td>{{ post['anoPublic'] }}</td>
             <td>{{ post['qnt'] }}</td>
-            <td>{{ post['qnt']-post['disp'] }}</td>
             <td>{{ post['disp'] }}</td>
             <td>
                 <form method="post">
                     <input type="text" name="cod" value="{{ post['cod_livro'] }}" style="display: none;">
                     <input type="submit" value="📝" name="info">
                     <input type="submit" value="❌" name="deletar">
-                    <input type="submit" value="✅" name="ok">
+                    <input type="submit" value="✅" name="emprestar">
                 </form>
                 
             </td>

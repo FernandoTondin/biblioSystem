@@ -19,6 +19,7 @@ def livro():
         edicao = request.form['edicao']
         publicacao = request.form['anoPublicacao']
         db = get_db()
+        cur = db.cursor()
         error = None
 
         if not titulo:
@@ -34,17 +35,17 @@ def livro():
 
         if error is None:
             try:
-                db.execute(
-                    "INSERT INTO livros (tit_livro, nom_autor,num_volume,num_edicao,anoPublic) VALUES (?, ?, ?, ?, ?)",
+                cur.execute(
+                    "INSERT INTO livros (tit_livro, nom_autor,num_volume,num_edicao,anoPublic) VALUES (%s, %s, %s, %s, %s)",
                     (titulo, autor, volume, edicao,publicacao),
                 )
                 db.commit()
-                db.execute('INSERT INTO exemplares (cod_livro,num_exemplar,bool_disponivel)'
+                cur.execute('INSERT INTO exemplares (cod_livro,num_exemplar,bool_disponivel)'
                 ' SELECT cod_livro,0 as num_exemplar,1 as bool_disponivel FROM livros'
-                ' WHERE tit_livro=? AND num_volume=? AND num_edicao=?',
+                ' WHERE tit_livro=%s AND num_volume=%s AND num_edicao=%s',
                 (titulo, volume, edicao))
                 db.commit()
-            except db.IntegrityError:
+            except:
                 error = f"livro {titulo} is already registered."
             else:
                 return redirect(url_for("home"))
@@ -72,7 +73,7 @@ def cliente():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente) VALUES (?, ?, ?)",
+                    "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente) VALUES (%s, %s, %s)",
                     (nome, cpf, end),
                 )
                 db.commit()
@@ -105,7 +106,7 @@ def emprestimo():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp, prazo_devol) VALUES (?, ?, ?, ?)",
+                    "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp, prazo_devol) VALUES (%s, %s, %s, %s)",
                     (cdExemplar, cdCliente, dataemp, prazoemp),
                 )
                 db.commit()
@@ -137,7 +138,7 @@ def exemplar():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp) VALUES (?, ?, ?)",
+                    "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp) VALUES (%s, %s, %s)",
                     (cod_livro, num_exemplar, desc_local),
                 )
                 db.commit()

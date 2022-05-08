@@ -1,6 +1,9 @@
 import os
 
 from flask import Flask, render_template
+from flask_mysqldb import MySQL
+
+from biblio.credentials import database_acces
 
 
 def create_app(test_config=None):
@@ -10,6 +13,11 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'biblio.sqlite'),
     )
+
+    app.config['MYSQL_HOST'] = database_acces().get_host()
+    app.config['MYSQL_USER'] = database_acces().get_user()
+    app.config['MYSQL_PASSWORD'] = database_acces().get_password()
+    app.config['MYSQL_DB'] = database_acces().get_database()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

@@ -1,10 +1,11 @@
-DROP TABLE if exists livros;
+DROP TABLE if exists emprestimos;
 
 DROP TABLE if exists exemplares;
 
+DROP TABLE if exists livros;
+
 DROP TABLE if exists clientes;
 
-DROP TABLE if exists emprestimos;
 
 CREATE TABLE livros(
     cod_livro integer not null unique,

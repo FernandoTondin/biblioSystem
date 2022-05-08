@@ -23,7 +23,7 @@ def livro():
             db = get_db()
             posts =db.execute(
                 'Select * FROM livros'
-                ' WHERE cod_livro = ?',
+                ' WHERE cod_livro = %s',
                 (cod,),
                 ).fetchall()
             return render_template('info/livro.html', posts=posts)
@@ -53,8 +53,8 @@ def livro():
                 try:
                     db.execute(
                         'UPDATE livros'
-                        ' SET tit_livro = ?, nom_autor = ?, num_volume = ?, num_edicao = ?, anoPublic = ?'
-                        ' WHERE cod_livro = ?;',
+                        ' SET tit_livro = %s, nom_autor = %s, num_volume = %s, num_edicao = %s, anoPublic = %s'
+                        ' WHERE cod_livro = %s;',
                         (titulo, autor, volume, edicao,publicacao,cod),
                     )
                     db.commit()
@@ -86,7 +86,7 @@ def cliente():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente) VALUES (?, ?, ?)",
+                    "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente) VALUES (%s, %s, %s)",
                     (nome, cpf, end),
                 )
                 db.commit()
