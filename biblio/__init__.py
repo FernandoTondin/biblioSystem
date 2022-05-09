@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask, render_template
-from flask_mysqldb import MySQL
 
 from biblio.credentials import database_acces
 

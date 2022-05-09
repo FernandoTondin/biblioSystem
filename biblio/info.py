@@ -5,27 +5,25 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from biblio.db import get_db
+from biblio.db import get_db,get_cursor
 
 bp = Blueprint('info', __name__, url_prefix='/info')
 
 @bp.route('/livro', methods=('GET', 'POST'))
 def livro():
+    db = get_db()
+    cur = get_cursor()
     
     if request.method == 'POST':
-        db = get_db()
-        print(request.form.keys())
         if "info" in request.form.keys():
 
             cod = request.form['cod']
-            print(type(cod))
-            print(cod)
-            db = get_db()
-            posts =db.execute(
+            cur.execute(
                 'Select * FROM livros'
                 ' WHERE cod_livro = %s',
                 (cod,),
-                ).fetchall()
+                )
+            posts = cur.fetchall()
             return render_template('info/livro.html', posts=posts)
         
         if "enviar" in request.form.keys():
@@ -35,7 +33,6 @@ def livro():
             volume = request.form['volume']
             edicao = request.form['edicao']
             publicacao = request.form['anoPublicacao']
-            db = get_db()
             error = None
 
             if not titulo:
@@ -51,7 +48,7 @@ def livro():
 
             if error is None:
                 try:
-                    db.execute(
+                    cur.execute(
                         'UPDATE livros'
                         ' SET tit_livro = %s, nom_autor = %s, num_volume = %s, num_edicao = %s, anoPublic = %s'
                         ' WHERE cod_livro = %s;',
@@ -69,32 +66,49 @@ def livro():
 
 @bp.route('/cliente', methods=('GET', 'POST'))
 def cliente():
+    db = get_db()
+    cur = get_cursor()
+    print(request.form.keys())
     if request.method == 'POST':
-        nome = request.form['nome']
-        cpf = request.form['cpf']
-        end = request.form['descEnderecoCliente']
-        db = get_db()
-        error = None
-
-        if not nome:
-            error = 'nome is required.'
-        elif not cpf:
-            error = 'cpf is required.'
-        elif not end:
-            error = 'endereco is required.'
-
-        if error is None:
-            try:
-                db.execute(
-                    "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente) VALUES (%s, %s, %s)",
-                    (nome, cpf, end),
+        if "info" in request.form.keys():
+            cod = request.form['cod']
+            cur.execute(
+                'Select * FROM clientes'
+                ' WHERE cod_cliente = %s',
+                (cod,),
                 )
-                db.commit()
-            except db.IntegrityError:
-                error = f"livro {nome} is already registered."
-            else:
-                return redirect(url_for("home"))
+            posts = cur.fetchall()
+            return render_template('info/cliente.html', posts=posts)
 
-        flash(error)
+        if "enviar" in request.form.keys():
+            cod = request.form['cod']
+            nome = request.form['nome']
+            cpf = request.form['cpf']
+            end = request.form['descEnderecoCliente']
+            error = None
+
+            if not nome:
+                error = 'nome is required.'
+            elif not cpf:
+                error = 'cpf is required.'
+            elif not end:
+                error = 'endereco is required.'
+
+            if error is None:
+                try:
+                    cur.execute(
+                        'UPDATE clientes '
+                        'SET nome_cliente = %s, CPF= %s, dsc_endereco_cliente= %s '
+                        'WHERE cod_cliente = %s;',(nome, cpf, end,cod)
+                    )
+                    db.commit()
+                except Exception as e: 
+                    print("excecao")
+                    print(e)
+                    error = f"{e}"
+                else:
+                    return redirect(url_for("view.cliente"))
+
+            flash(error)
 
     return render_template('info/cliente.html')

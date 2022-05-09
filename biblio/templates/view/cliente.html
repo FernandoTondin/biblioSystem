@@ -29,8 +29,11 @@
             <td>{{ post['CPF'] }}</td>
             <td>{{ post['dsc_endereco_cliente'] }}</td>
             <td>
-                <a href="{{ url_for('info.cliente') }}?cod={{ post['cod_cliente'] }}">📝</a>
-                <a>❌</a>
+                <form method="post">
+                    <input type="text" name="cod" value="{{ post['cod_cliente'] }}" style="display: none;">
+                    <input type="submit" value="📝" name="info">
+                    <input type="submit" value="❌" name="deletar">
+                </form>
             </td>
         </tr>
     {% endfor %}

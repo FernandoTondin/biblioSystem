@@ -8,7 +8,7 @@ DROP TABLE if exists clientes;
 
 
 CREATE TABLE livros(
-    cod_livro integer not null unique,
+    cod_livro integer not null unique AUTO_INCREMENT,
     tit_livro VARCHAR(20),
     nom_autor VARCHAR(40),
     num_volume integer,
@@ -18,7 +18,7 @@ CREATE TABLE livros(
     );
 
 CREATE TABLE exemplares(
-    cod_exemplar integer not null unique,
+    cod_exemplar integer not null unique AUTO_INCREMENT,
     cod_livro integer not null,
     num_exemplar smallint not null default 1,
     bool_disponivel tinyint,
@@ -28,7 +28,7 @@ CREATE TABLE exemplares(
 );
 
 CREATE TABLE clientes(
-    cod_cliente integer not null unique,
+    cod_cliente integer not null unique AUTO_INCREMENT,
     nome_cliente VARCHAR(40),
     CPF VARCHAR(20),
     dsc_endereco_cliente VARCHAR(60),
@@ -36,7 +36,7 @@ CREATE TABLE clientes(
 );
 
 CREATE TABLE emprestimos(
-    cod_emprestimo integer not null unique,
+    cod_emprestimo integer not null unique AUTO_INCREMENT,
     cod_exemplar integer not null,
     cod_cliente integer not null,
     data_emp Date,

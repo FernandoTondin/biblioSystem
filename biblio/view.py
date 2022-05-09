@@ -6,15 +6,15 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from biblio.db import get_db
+from biblio.db import get_db,get_cursor
 
 bp = Blueprint('view', __name__, url_prefix='/view')
 
 @bp.route('/livro', methods=('GET', 'POST'))
 def livro():
+    db = get_db()
+    cur = get_cursor()
     if request.method == 'POST':
-        db = get_db()
-        cur = db.cursor()
         if "info" in request.form.keys():
             cod = int(request.form['cod'])
             cur.execute(
@@ -78,8 +78,6 @@ def livro():
             db.commit()
         return render_template('view/livro.html', posts=posts)
     else:
-        db = get_db()
-        cur = db.cursor()
         cur.execute(
             'Select livros.cod_livro, tit_livro, nom_autor, num_volume, num_edicao, anoPublic, '
             '(select count(*) from exemplares where exemplares.cod_livro = livros.cod_livro) as QNT, '
@@ -88,6 +86,7 @@ def livro():
             'ORDER BY tit_livro ASC'
         )
         posts =cur.fetchall()
+        print(posts)
 
         db.commit()
     return render_template('view/livro.html', posts=posts)
@@ -95,30 +94,38 @@ def livro():
 
 @bp.route('/cliente', methods=('GET', 'POST'))
 def cliente():
+    db = get_db()
+    cur = get_cursor()
     if request.method == 'POST':
-        nome = request.form['title']
-        db = get_db()
-        cur = db.cursor()
-        if nome != "":
-            nome = "%"+nome+"%"
+        if "info" in request.form.keys():
+            cod = int(request.form['cod'])
             cur.execute(
-                'Select * FROM clientes'
-                ' WHERE nome_cliente LIKE %s'
-                ' ORDER BY nome_cliente ASC',
-                (nome,),
-                )
+            'Select * FROM clientes'
+            ' WHERE cod_cliente = %s',
+            (cod,),
+            )
             posts = cur.fetchall()
-            db.commit()
+            return redirect(url_for('info.cliente'),code=307)
         else:
-            cur.execute(
-                'Select * FROM clientes'
-                ' ORDER BY nome_cliente ASC',
-                )
-            posts = cur.fetchall()
-            db.commit()
+            nome = request.form['title']
+            if nome != "":
+                nome = "%"+nome+"%"
+                cur.execute(
+                    'Select * FROM clientes'
+                    ' WHERE nome_cliente LIKE %s'
+                    ' ORDER BY nome_cliente ASC',
+                    (nome,),
+                    )
+                posts = cur.fetchall()
+                db.commit()
+            else:
+                cur.execute(
+                    'Select * FROM clientes'
+                    ' ORDER BY nome_cliente ASC',
+                    )
+                posts = cur.fetchall()
+                db.commit()
     else:
-        db = get_db()
-        cur = db.cursor()
         cur.execute(
                 'Select * FROM clientes'
                 ' ORDER BY nome_cliente ASC',
@@ -129,10 +136,10 @@ def cliente():
 
 @bp.route('/emprestimo', methods=('GET', 'POST'))
 def emprestimo():
+    db = get_db()
+    cur = get_cursor()
     if request.method == 'POST':
         pesquisa = request.form['title']
-        db = get_db()
-        cur = db.cursor()
         if pesquisa != "":
             pesquisa = "%"+pesquisa+"%"
             cur.execute(
@@ -158,7 +165,6 @@ def emprestimo():
             posts = cur.fetchall()
             db.commit()
     else:
-        db = get_db()
         cur.execute(
                 'Select * '
                 'FROM '

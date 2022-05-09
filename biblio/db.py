@@ -47,6 +47,9 @@ def get_db():
 
     return g.db
 
+def get_cursor():
+    return get_db().cursor(dictionary=True)
+
 
 def close_db(e=None):
     db = g.pop('db', None)

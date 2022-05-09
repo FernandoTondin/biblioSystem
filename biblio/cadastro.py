@@ -6,7 +6,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from biblio.db import get_db
+from biblio.db import get_db,get_cursor
 
 bp = Blueprint('cadastro', __name__, url_prefix='/cadastro')
 
@@ -45,7 +45,8 @@ def livro():
                 ' WHERE tit_livro=%s AND num_volume=%s AND num_edicao=%s',
                 (titulo, volume, edicao))
                 db.commit()
-            except:
+            except Exception as e:
+                print(e)
                 error = f"livro {titulo} is already registered."
             else:
                 return redirect(url_for("home"))
@@ -56,6 +57,8 @@ def livro():
 
 @bp.route('/cliente', methods=('GET', 'POST'))
 def cliente():
+    db = get_db()
+    cur = get_cursor()
     if request.method == 'POST':
         nome = request.form['nome']
         cpf = request.form['cpf']
@@ -72,7 +75,7 @@ def cliente():
 
         if error is None:
             try:
-                db.execute(
+                cur.execute(
                     "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente) VALUES (%s, %s, %s)",
                     (nome, cpf, end),
                 )
@@ -88,10 +91,11 @@ def cliente():
 
 @bp.route('/emprestimo', methods=('GET', 'POST'))
 def emprestimo():
+    db = get_db()
+    cur = get_cursor()
     if request.method == 'POST':
         cdExemplar = request.form['cdExemplar']
         cdCliente = request.form['cdCliente']
-        db = get_db()
         data = dt.date.today()
         dataemp = data.strftime("%Y-%m-%d")
         prazo = data + dt.timedelta(5)
@@ -105,7 +109,7 @@ def emprestimo():
 
         if error is None:
             try:
-                db.execute(
+                cur.execute(
                     "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp, prazo_devol) VALUES (%s, %s, %s, %s)",
                     (cdExemplar, cdCliente, dataemp, prazoemp),
                 )
@@ -121,6 +125,8 @@ def emprestimo():
 
 @bp.route('/exemplar', methods=('GET', 'POST'))
 def exemplar():
+    db = get_db()
+    cur = get_cursor()
     if request.method == 'POST':
         cod_livro = request.form['cod_livro']
         num_exemplar = request.form['num_exemplar']
@@ -137,7 +143,7 @@ def exemplar():
 
         if error is None:
             try:
-                db.execute(
+                cur.execute(
                     "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp) VALUES (%s, %s, %s)",
                     (cod_livro, num_exemplar, desc_local),
                 )
