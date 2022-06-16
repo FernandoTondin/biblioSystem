@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>{% block title %}livros{% endblock %}</h1>
+    <h1>{% block title %}Livros{% endblock %}</h1>
     {% if g.user %}
-        <a class="action" href="{{ url_for('livro.index') }}">New</a>
     {% endif %}
 {% endblock %}
-  
 
 {% block content %}
+{% if g.user %}
+    <a class="botao" href="{{ url_for('cadastro.livro') }}" id="novoLivro_menu_btn">➕ Adicionar Livro</a>
     <form method="post">
         <label for="titulo">titulo</label>
         <input name="pesquisa" id="pesquisa" value="{{ request.form['pesquisa'] }}">
@@ -17,11 +17,11 @@
     <table>
     <tr>
         <th>CÓDIGO</th>
-        <th>NOME</th>
-        <th>Autor</th>
-        <th>volume</th>
-        <th>edição</th>
-        <th>Ano de publicação</th>
+        <th>TÍTULO</th>
+        <th>AUTOR</th>
+        <th>VOLUME</th>
+        <th>EDIÇÃO</th>
+        <th>ANO DE PUBLICAÇÃO</th>
         <th>QUANTIDADE</th>
         <th>DISPONÍVEIS</th>
         <th>INFO</th>
@@ -34,17 +34,31 @@
             <td>{{ post['num_volume'] }}</td>
             <td>{{ post['num_edicao'] }}</td>
             <td>{{ post['anoPublic'] }}</td>
-            <td>{{ post['qnt'] }}</td>
-            <td>{{ post['disp'] }}</td>
+            <td>
+                <form method="post">
+                    {% if post['DISP'] == 0 %}
+                        <input type="submit" value="-" name="remover exemplar" disabled>
+                    {% else %}
+                        <input type="submit" value="-" name="remover exemplar">
+                    {% endif %}
+                    {{ post['QNT'] }}
+                    <input type="text" name="cod" value="{{ post['cod_livro'] }}" style="display: none;">
+                    <input type="submit" value="+" name="adicionar exemplar">
+            </td>
+            <td>{{ post['DISP'] }}</td>
             <td>
                 <form method="post">
                     <input type="text" name="cod" value="{{ post['cod_livro'] }}" style="display: none;">
                     <input type="submit" value="📝" name="info">
                     <input type="submit" value="❌" name="deletar">
-                    <input type="submit" value="✅" name="emprestar">
+                    {% if post['DISP'] == 0 %}
+                    <input type="submit" value="⚠️" name="reservar">
+                    {% else %}
+                        <input type="submit" value="✅" name="emprestar">
+                    {% endif %}
                 </form>
-                
             </td>
         </tr>
     {% endfor %}
+{% endif %}
 {% endblock %}

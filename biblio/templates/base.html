@@ -1,20 +1,34 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - biblio</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-{%if request.path != '/' %}
+<html lang="pt">
+  <title>{% block title %}{% endblock %} - biblio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <nav>
-    <h1>Biblio</h1>
-    <ul style="text-align:center;">
-      <a style="text-align:center; width: auto;" href="{{ url_for('home') }}">home</a>
-    </ul>
+      {%if request.path != '/' %}
+      <h1>BiblioSystem</h1>
+      {% endif %}
+      <ul style="text-align:center; list-style-type:none">
+        {%if request.path != '/' %}
+          <li><a style="text-align:center; width: auto;" href="{{ url_for('home') }}">home</a>
+        {% endif %}
+        {% if g.user %}
+          <li><span>{{ g.user['usuario'] }}</span>
+          <li><a style="text-align:center; width: auto;" href="{{ url_for('auth.logout') }}">Log Out</a>
+        {% else %}
+          {%if request.path != '/auth/login' %}
+            <li><a style="text-align:center; width: auto;" href="{{ url_for('auth.login') }}">Log In</a>
+            <!-- <li><a style="text-align:center; width: auto;" href="{{ url_for('auth.register') }}">Registrar</a> -->
+          {% endif %}
+        {% endif %}
+      </ul>
   </nav>
-{% endif %}
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
-</section>
+
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
+</html>

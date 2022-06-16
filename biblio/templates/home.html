@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}HOME{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if g.user %}
+<div class="top_menu_btn">
+    <a href="{{ url_for('view.livro') }}" class="botao" name="livros_menu_btn">LIVROS</a>
+
+    <a href="{{ url_for('view.cliente') }}" class="botao" name="livros_menu_btn">CLIENTES</a>
+
+    <a href="{{ url_for('view.emprestimo') }}" class="botao" name="livros_menu_btn">EMPRÉSTIMOS</a>
+
+    <a href="{{ url_for('view.reserva') }}" class="botao" name="livros_menu_btn">RESERVAS</a>
+</div>
+
+<br><br>
+{% endif %}
+<div class="retangulo">
+    <h1>
+        <p class="Titulo1">BIBLIO</p>
+        <p class="Titulo2">SYSTEM</p>
+    </h1>
+</div>
+
+{% endblock %}

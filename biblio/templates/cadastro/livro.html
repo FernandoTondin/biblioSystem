@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+{% if g.user %}
   <form method="post">
     <label for="livro" class="rotulos">LIVRO:</label>
     <input class="inputs" type="text" id="livro" name="livro" style="width: 16%; margin-left: 34px;"">
@@ -24,4 +25,5 @@
     <input class="enviar" type="submit" value="Enviar" id="enviar">
     <input class="cancelar" type="submit" value="Cancelar" id="cancelar">
   </form>
+{% endif %}
 {% endblock %}

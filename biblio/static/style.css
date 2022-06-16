@@ -83,19 +83,19 @@ input.inputs {
 }
 
 .retangulo {
-  height: 150px;
-  width: 410px;
-  background-color: white;
-  border-radius:7px;
-  display: flex;
-  justify-content:center;
-  align-items: center;
-  position: relative;
-  right: -475px;
+    height: 150px;
+    width: 410px;
+    background-color: white;
+    border-radius:7px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    position: relative;
+    right: -475px;
 }
 
 .botao:hover {
-  background-color: #dfe8f0;
+    background-color: #dfe8f0;
 }
 
 .Titulo1 {
@@ -151,20 +151,19 @@ input.cadastrar {
 }
 
 table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 td, th {
-  border: 1px solid rgb(0, 0, 0);
-  text-align: left;
-  padding: 8px;
-  
+    border: 1px solid rgb(0, 0, 0);
+    text-align: left;
+    padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: rgb(250, 240, 219);
+    background-color: rgb(250, 240, 219);
 }
 
 .enviar {

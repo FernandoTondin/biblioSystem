@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>{% block title %}livros{% endblock %}</h1>
+    <h1>{% block title %}Clientes{% endblock %}</h1>
     {% if g.user %}
-        <a class="action" href="{{ url_for('livro.index') }}">New</a>
     {% endif %}
 {% endblock %}
-  
 
 {% block content %}
+{% if g.user %}
+    <a class="botao" href="{{ url_for('cadastro.cliente') }}" id="novoLivro_menu_btn">➕ Adicionar Cliente</a>
     <form method="post">
         <input name="title" id="title" value="{{ request.form['title'] }}">
         <input type="submit" name="submit_btn" value="Pesquisar">
@@ -16,18 +16,18 @@
     </form>
     <table>
     <tr>
-        <th>CÓDIGO</th>
         <th>NOME</th>
         <th>CPF</th>
         <th>ENDEREÇO</th>
+        <th>E-MAIL</th>
         <th>INFO</th>
     </tr>
     {% for post in posts %}
         <tr>
-            <td>{{ post['cod_cliente'] }}</td>
             <td>{{ post['nome_cliente'] }}</td>
             <td>{{ post['CPF'] }}</td>
             <td>{{ post['dsc_endereco_cliente'] }}</td>
+            <td>{{ post['email'] }}</td>
             <td>
                 <form method="post">
                     <input type="text" name="cod" value="{{ post['cod_cliente'] }}" style="display: none;">
@@ -37,4 +37,5 @@
             </td>
         </tr>
     {% endfor %}
+{% endif %}
 {% endblock %}

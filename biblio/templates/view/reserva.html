@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>{% block title %}Emprestimos{% endblock %}</h1>
+    <h1>{% block title %}Reservas{% endblock %}</h1>
     {% if g.user %}
     {% endif %}
 {% endblock %}
@@ -22,27 +22,22 @@
         <th>TÍTULO</th>
         <th>CLIENTE</th>
         <th>DATA</th>
-        <th>PRAZO</th>
-        <th>DEVOLUÇÃO</th>
-        <th>INFO</th>
+        <th>Info</th>
     </tr>
     {% for post in posts %}
         <tr>
-            <td>{{ post['cod_emprestimo'] }}</td>
+            <td>{{ post['cod_reserva'] }}</td>
             <td>{{ post['tit_livro'] }}</td>
             <td>{{ post['nome_cliente'] }}</td>
-            <td>{{ post['data_emp'] }}</td>
-            <td>{{ post['prazo_devol'] }}</td>
-            <td>{{ post['data_devol'] }}</td>
+            <td>{{ post['data_reserva'] }}</td>
             <td>
                 <form method="post">
-                    <input type="text" name="cod" value="{{ post['cod_emprestimo'] }}" style="display: none;">
-                    {% if post['data_devol'] is none %}
-                        <input type="submit" value="❌" name="STATUS" disabled>
-                        <input type="submit" value="🔄" name="devolver">
-                        <input type="submit" value="🗑️" name="deletar">
+                    <input type="text" name="cod" value="{{ post['cod_reserva'] }}" style="display: none;">
+                    <input type="submit" value="❌" name="deletar">
+                    {% if post['cod_exemplar'] != '' %}
+                    <input type="submit" value="⚠️" name="reservar" disabled>
                     {% else %}
-                        <input type="submit" value="✔️" name="STATUS" disabled>
+                        <input type="submit" value="✅" name="emprestar">
                     {% endif %}
                 </form>
             </td>

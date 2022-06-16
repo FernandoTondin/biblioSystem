@@ -5,12 +5,16 @@
 {% endblock %}
 
 {% block content %}
+{% if g.user %}
   {% for post in posts %}
     <form method="post">
       <input class="inputs" type="text" id="cod" name="cod" style="width: 16%; margin-left: 34px;" value="{{ post['cod_cliente'] }}" hidden>
       <label for="nome" class="rotulos">NOME:</label>
       <input class="inputs" type="text" id="nome" name="nome" style="width: 16%; margin-left: 34px;" value="{{ post['nome_cliente'] }}" ><br><br>
       <br>
+      <label for="email" class="rotulos">E-MAIL:</label>
+      <input class="inputs" type="text" id="email" name="email" style="width: 16%; margin-left: 34px;"><br><br>
+      <br>      
       <label for="cpf" class="rotulos">CPF:</label>
       <input class="inputs" type="text" minlength="11" maxlength="11" id="cpf" name="cpf" style="width: 16%; margin-left: 45px;" value="{{ post['CPF'] }}" ><br><br>
       <br>
@@ -21,4 +25,5 @@
       <input class="cancelar" type="submit" value="Cancelar" id="cancelar">
     </form>
   {% endfor %}
+{% endif %}
 {% endblock %}

@@ -34,7 +34,10 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/')
     def home():
-        return render_template('index.html')
+        return render_template('home.html')
+
+    from . import auth
+    app.register_blueprint(auth.bp)
 
     from . import db
     db.init_app(app)
