@@ -38,6 +38,7 @@ CREATE TABLE clientes(
     cod_cliente integer not null unique AUTO_INCREMENT,
     nome_cliente VARCHAR(40),
     CPF VARCHAR(20) not null unique,
+    dsc_email_cliente VARCHAR(60),
     dsc_endereco_cliente VARCHAR(60),
     PRIMARY KEY (CPF)
 );
@@ -60,6 +61,8 @@ CREATE TABLE reservas(
     cod_exemplar integer,
     CPF VARCHAR(20) not null,
     data_reserva Date,
+    data_devol Date,
+    data_emp Date,
     PRIMARY KEY (cod_reserva),
     FOREIGN KEY (cod_livro) REFERENCES livros(cod_livro),
     FOREIGN KEY (cod_exemplar) REFERENCES exemplares(cod_exemplar),
@@ -70,5 +73,6 @@ CREATE TABLE user (
     id INTEGER NOT NULL AUTO_INCREMENT,
     usuario VARCHAR(255) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
+    boolAdmin tinyint,
     PRIMARY KEY(id)
 );
