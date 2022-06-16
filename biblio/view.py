@@ -25,14 +25,9 @@ def livro():
             posts =cur.fetchall()
             return redirect(url_for('info.livro'),code=307)
         elif "emprestar" in request.form.keys():
-            cod = int(request.form['cod'])
-            cur.execute(
-            'Select * FROM livros'
-            ' WHERE cod_livro = %s',
-            (cod,),
-            )
-            posts =cur.fetchall()
-            return redirect(url_for('info.livro'),code=307)
+            return redirect(url_for('cadastro.emprestimo'),code=307)
+        elif "reservar" in request.form.keys():
+            return redirect(url_for('cadastro.reserva'),code=307)
         elif "deletar" in request.form.keys():
             cod = int(request.form['cod'])
             cur.execute("DELETE FROM livros WHERE cod_livro = %s",(cod,))
@@ -139,31 +134,152 @@ def emprestimo():
     db = get_db()
     cur = get_cursor()
     if request.method == 'POST':
-        pesquisa = request.form['title']
-        if pesquisa != "":
-            pesquisa = "%"+pesquisa+"%"
+        print(request.form)
+        if "devolver" in request.form.keys():
+            dia = dt.date.today()
+            cod_emp = request.form['cod']
+            cur.execute(
+                'select cod_exemplar from emprestimos WHERE cod_emprestimo = %s',(cod_emp,)
+            )
+            exemps = cur.fetchall()
+            for exemp in exemps:
+                cur.execute(
+                    'select cod_livro from exemplares '
+                    'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                )
+                cod_livro = cur.fetchall()[0]["cod_livro"]
+                cur.execute(
+                    'SELECT * '
+                    'FROM reservas '
+                    'WHERE cod_livro = %s',(cod_livro,)
+                )
+                reservas = cur.fetchall()
+                if reservas != []:
+                    cur.execute(
+                        'UPDATE exemplares '
+                        'SET bool_disponivel = 0, bool_emprestado = 0, bool_reservado = 1 '
+                        'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                    )
+                    db.commit()
+                    cur.execute(
+                        'UPDATE reservas '
+                        'SET cod_exemplar = %s, bool_emprestado = 0, bool_reservado = 1 '
+                        'WHERE cod_reserva = %s',(exemp["cod_exemplar"],reservas[0]["cod_reserva"])
+                    )
+                    db.commit()
+                    ################################
+                    #TODO enviar email
+                    ################################
+                else:
+                    cur.execute(
+                        'UPDATE exemplares '
+                        'SET bool_disponivel = 1, bool_emprestado = 0, bool_reservado = 0 '
+                        'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                    )
+                    db.commit()
+            cur.execute(
+                'UPDATE emprestimos '
+                'SET data_devol = %s '
+                'WHERE cod_emprestimo = %s',(dia.strftime("%Y-%m-%d"),cod_emp)
+            )
+            db.commit()
             cur.execute(
                 'Select * '
                 'FROM '
                     '(emprestimos LEFT JOIN '
                         '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
                     'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
-                    'LEFT JOIN clientes on emprestimos.cod_cliente = clientes.cod_cliente '
-                    'WHERE nome_cliente LIKE %s OR tit_livro LIKE %s OR nom_autor LIKE %s',(pesquisa,pesquisa,pesquisa),
-                )
+                    'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                    'WHERE data_devol IS NULL',
+            )
             posts = cur.fetchall()
+            return render_template('view/emprestimo.html',posts=posts)
+        elif "deletar" in request.form.keys():
+            cod_emp = request.form['cod']
+            cur.execute(
+                'select cod_exemplar from emprestimos WHERE cod_emprestimo = %s',(cod_emp,)
+            )
+            exemps = cur.fetchall()
+            for exemp in exemps:
+                cur.execute(
+                    'UPDATE exemplares '
+                    'SET bool_disponivel = 1, bool_emprestado = 0, bool_reservado = 0 '
+                    'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                )
+                db.commit()
+            cur.execute(
+                'DELETE FROM emprestimos '
+                'WHERE cod_emprestimo = %s',(cod_emp,)
+            )
             db.commit()
+
+            cur.execute(
+                'Select * '
+                'FROM '
+                    '(emprestimos LEFT JOIN '
+                        '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                    'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                    'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF ',
+            )
+            posts = cur.fetchall()
+            return render_template('view/emprestimo.html',posts=posts)
         else:
-            cur.execute(
-                'Select * '
-                'FROM '
-                    '(emprestimos LEFT JOIN '
-                        '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
-                    'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
-                    'LEFT JOIN clientes on emprestimos.cod_cliente = clientes.cod_cliente ',
-                )
-            posts = cur.fetchall()
-            db.commit()
+            if "atrasados" in request.form.keys():
+                atrasado = True
+                dia = dt.date.today()
+            else:
+                atrasado = False
+            pesquisa = request.form['title']
+            if pesquisa != "":
+                pesquisa = "%"+pesquisa+"%"
+                if atrasado:
+                    cur.execute(
+                        'Select * '
+                        'FROM '
+                            '(emprestimos LEFT JOIN '
+                                '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                            'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                            'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                            'WHERE (nome_cliente LIKE %s OR tit_livro LIKE %s OR nom_autor LIKE %s) AND prazo_devol < %s  AND data_devol IS NULL',(pesquisa,pesquisa,pesquisa,dia.strftime("%Y-%m-%d")),
+                        )
+                    posts = cur.fetchall()
+                    db.commit()
+                else:
+                    cur.execute(
+                        'Select * '
+                        'FROM '
+                            '(emprestimos LEFT JOIN '
+                                '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                            'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                            'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                            'WHERE (nome_cliente LIKE %s OR tit_livro LIKE %s OR nom_autor LIKE %s)',(pesquisa,pesquisa,pesquisa),
+                        )
+                    posts = cur.fetchall()
+                    db.commit()
+            else:
+                if atrasado:
+                    cur.execute(
+                        'Select * '
+                        'FROM '
+                            '(emprestimos LEFT JOIN '
+                                '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                            'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                            'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                            'WHERE prazo_devol < %s  AND data_devol IS NULL',(dia.strftime("%Y-%m-%d"),),
+                        )
+                    posts = cur.fetchall()
+                    db.commit()
+                else:
+                    cur.execute(
+                    'Select * '
+                    'FROM '
+                        '(emprestimos LEFT JOIN '
+                            '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                        'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                        'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF ',
+                    )
+                    posts = cur.fetchall()
+                    db.commit()
     else:
         cur.execute(
                 'Select * '
@@ -171,9 +287,172 @@ def emprestimo():
                     '(emprestimos LEFT JOIN '
                         '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
                     'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
-                    'LEFT JOIN clientes on emprestimos.cod_cliente = clientes.cod_cliente',
+                    'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF ',
                 )
         posts = cur.fetchall()
-        db.commit()
     return render_template('view/emprestimo.html', posts=posts)
+
+@bp.route('/reserva', methods=('GET', 'POST'))
+def reserva():
+    db = get_db()
+    cur = get_cursor()
+    if request.method == 'POST':
+        print(request.form)
+        if "devolver" in request.form.keys():
+            dia = dt.date.today()
+            cod_emp = request.form['cod']
+            cur.execute(
+                'select cod_exemplar from emprestimos WHERE cod_emprestimo = %s',(cod_emp,)
+            )
+            exemps = cur.fetchall()
+            for exemp in exemps:
+                cur.execute(
+                    'select cod_livro from exemplares '
+                    'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                )
+                cod_livro = cur.fetchall()[0]["cod_livro"]
+                cur.execute(
+                    'SELECT * '
+                    'FROM reservas '
+                    'WHERE cod_livro = %s',(cod_livro,)
+                )
+                reservas = cur.fetchall()
+                if reservas != []:
+                    cur.execute(
+                        'UPDATE exemplares '
+                        'SET bool_disponivel = 0, bool_emprestado = 0, bool_reservado = 1 '
+                        'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                    )
+                    db.commit()
+                    cur.execute(
+                        'UPDATE reservas '
+                        'SET cod_exemplar = %s, bool_emprestado = 0, bool_reservado = 1 '
+                        'WHERE cod_reserva = %s',(exemp["cod_exemplar"],reservas[0]["cod_reserva"])
+                    )
+                    db.commit()
+                    ################################
+                    #TODO enviar email
+                    ################################
+                else:
+                    cur.execute(
+                        'UPDATE exemplares '
+                        'SET bool_disponivel = 1, bool_emprestado = 0, bool_reservado = 0 '
+                        'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                    )
+                    db.commit()
+            cur.execute(
+                'UPDATE emprestimos '
+                'SET data_devol = %s '
+                'WHERE cod_emprestimo = %s',(dia.strftime("%Y-%m-%d"),cod_emp)
+            )
+            db.commit()
+            cur.execute(
+                'Select * '
+                'FROM '
+                    '(emprestimos LEFT JOIN '
+                        '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                    'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                    'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                    'WHERE data_devol IS NULL',
+            )
+            posts = cur.fetchall()
+            return render_template('view/emprestimo.html',posts=posts)
+        elif "deletar" in request.form.keys():
+            cod_emp = request.form['cod']
+            cur.execute(
+                'select cod_exemplar from emprestimos WHERE cod_emprestimo = %s',(cod_emp,)
+            )
+            exemps = cur.fetchall()
+            for exemp in exemps:
+                cur.execute(
+                    'UPDATE exemplares '
+                    'SET bool_disponivel = 1, bool_emprestado = 0, bool_reservado = 0 '
+                    'WHERE cod_exemplar = %s',(exemp["cod_exemplar"],)
+                )
+                db.commit()
+            cur.execute(
+                'DELETE FROM emprestimos '
+                'WHERE cod_emprestimo = %s',(cod_emp,)
+            )
+            db.commit()
+
+            cur.execute(
+                'Select * '
+                'FROM '
+                    '(emprestimos LEFT JOIN '
+                        '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                    'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                    'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                    'WHERE data_devol IS NULL',
+            )
+            posts = cur.fetchall()
+            return render_template('view/emprestimo.html',posts=posts)
+        else:
+            if "atrasados" in request.form.keys():
+                atrasado = True
+                dia = dt.date.today()
+            else:
+                atrasado = False
+            pesquisa = request.form['title']
+            if pesquisa != "":
+                pesquisa = "%"+pesquisa+"%"
+                if atrasado:
+                    cur.execute(
+                        'Select * '
+                        'FROM '
+                            '(emprestimos LEFT JOIN '
+                                '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                            'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                            'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                            'WHERE (nome_cliente LIKE %s OR tit_livro LIKE %s OR nom_autor LIKE %s) AND prazo_devol < %s AND data_devol IS NULL',(pesquisa,pesquisa,pesquisa,dia.strftime("%Y-%m-%d")),
+                        )
+                    posts = cur.fetchall()
+                    db.commit()
+                else:
+                    cur.execute(
+                        'Select * '
+                        'FROM '
+                            '(emprestimos LEFT JOIN '
+                                '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                            'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                            'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                            'WHERE (nome_cliente LIKE %s OR tit_livro LIKE %s OR nom_autor LIKE %s) AND data_devol IS NULL',(pesquisa,pesquisa,pesquisa),
+                        )
+                    posts = cur.fetchall()
+                    db.commit()
+            else:
+                if atrasado:
+                    cur.execute(
+                        'Select * '
+                        'FROM '
+                            '(emprestimos LEFT JOIN '
+                                '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                            'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                            'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                            'WHERE prazo_devol < %s AND data_devol IS NULL',(dia.strftime("%Y-%m-%d"),),
+                        )
+                    posts = cur.fetchall()
+                    db.commit()
+                else:
+                    cur.execute(
+                    'Select * '
+                    'FROM '
+                        '(emprestimos LEFT JOIN '
+                            '(exemplares LEFT JOIN livros on exemplares.cod_livro = livros.cod_livro) '
+                        'on emprestimos.cod_exemplar = exemplares.cod_exemplar) '
+                        'LEFT JOIN clientes on emprestimos.CPF = clientes.CPF '
+                        'WHERE data_devol IS NULL',
+                    )
+                    posts = cur.fetchall()
+                    db.commit()
+    else:
+        cur.execute(
+                'Select cod_reserva, tit_livro, nome_cliente, data_reserva, reservas.cod_exemplar '
+                'FROM reservas '
+                'LEFT JOIN exemplares ON reservas.cod_exemplar = exemplares.cod_exemplar '
+                'LEFT JOIN livros ON reservas.cod_livro = livros.cod_livro '
+                'LEFT JOIN clientes on reservas.CPF = clientes.CPF',
+                )
+        posts = cur.fetchall()
+    return render_template('view/reserva.html', posts=posts)
 

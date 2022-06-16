@@ -1,5 +1,6 @@
 import functools
 import datetime as dt
+from logging import exception
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -40,8 +41,8 @@ def livro():
                     (titulo, autor, volume, edicao,publicacao),
                 )
                 db.commit()
-                cur.execute('INSERT INTO exemplares (cod_livro,num_exemplar,bool_disponivel)'
-                ' SELECT cod_livro,0 as num_exemplar,1 as bool_disponivel FROM livros'
+                cur.execute('INSERT INTO exemplares (cod_livro,num_exemplar,bool_disponivel,bool_emprestado,bool_reservado)'
+                ' SELECT cod_livro,0 as num_exemplar,1 as bool_disponivel,0 as bool_emprestado,0 as bool_reservado FROM livros'
                 ' WHERE tit_livro=%s AND num_volume=%s AND num_edicao=%s',
                 (titulo, volume, edicao))
                 db.commit()
@@ -94,34 +95,110 @@ def emprestimo():
     db = get_db()
     cur = get_cursor()
     if request.method == 'POST':
-        cdExemplar = request.form['cdExemplar']
-        cdCliente = request.form['cdCliente']
-        data = dt.date.today()
-        dataemp = data.strftime("%Y-%m-%d")
-        prazo = data + dt.timedelta(5)
-        prazoemp = prazo.strftime("%Y-%m-%d")
-        error = None
-
-        if not cdExemplar:
-            error = 'cdExemplar is required.'
-        elif not cdCliente:
-            error = 'cdExemplar is required.'
-
-        if error is None:
-            try:
-                cur.execute(
-                    "INSERT INTO emprestimos (cod_exemplar, cod_cliente, data_emp, prazo_devol) VALUES (%s, %s, %s, %s)",
-                    (cdExemplar, cdCliente, dataemp, prazoemp),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"livro {cdExemplar} is already registered."
+        if "emprestar" in request.form.keys():
+            cod = int(request.form['cod'])
+            cur.execute(
+            'Select * FROM livros'
+            ' WHERE cod_livro = %s',
+            (cod,),
+            )
+            posts =cur.fetchall()
+            return render_template('cadastro/emprestimo.html', posts=posts)
         else:
-            return redirect(url_for("home"))
+            cdLivro = request.form['cdLivro']
+            cpfCliente = request.form['cpfCliente']
+            data = dt.date.today()
+            dataemp = data.strftime("%Y-%m-%d")
+            prazo = data + dt.timedelta(5)
+            prazoemp = prazo.strftime("%Y-%m-%d")
+            error = None
 
-        flash(error)
+            if not cdLivro:
+                error = 'Livro is required.'
+            elif not cpfCliente:
+                error = 'CPF is required.'
+
+            if error is None:
+                disp = False
+                cur.execute("SELECT * from exemplares WHERE cod_livro = %s",(cdLivro,))
+                exemps = cur.fetchall()
+                for exemp in exemps:
+                    if exemp["bool_disponivel"]:
+                        disp = True
+                        cdExemplar = exemp["cod_exemplar"]
+                if disp:
+                    try:
+                        cur.execute(
+                            "INSERT INTO emprestimos (cod_exemplar, CPF, data_emp, prazo_devol) VALUES (%s, %s, %s, %s)",
+                            (cdExemplar, cpfCliente, dataemp, prazoemp),
+                        )
+                        db.commit()
+                        try:
+                            cur.execute(
+                                "UPDATE exemplares SET bool_disponivel = 0, bool_emprestado = 1 WHERE cod_exemplar = %s",
+                                (cdExemplar,),
+                            )
+                            db.commit()
+                        except Exception as e:
+                            print(e)
+                            error = "falha ao registrar emprestimo"
+                        else:
+                            return redirect(url_for("home"))
+                    except Exception as e:
+                        print(e)
+                        error = f"falha ao criar emprestimo"
+                else:
+                    error = "Livro indisponivel, favor reservar pela tela de pesquisa"
+
+            flash(error)
 
     return render_template('cadastro/emprestimo.html')
+
+
+@bp.route('/reserva', methods=('GET', 'POST'))
+def reserva():
+    db = get_db()
+    cur = get_cursor()
+    if request.method == 'POST':
+        if "reservar" in request.form.keys():
+            cod = int(request.form['cod'])
+            cur.execute(
+            'Select * FROM livros'
+            ' WHERE cod_livro = %s',
+            (cod,),
+            )
+            posts =cur.fetchall()
+            return render_template('cadastro/reserva.html', posts=posts)
+        else:
+            cdLivro = request.form['cdLivro']
+            cpfCliente = request.form['cpfCliente']
+            data = dt.date.today()
+            dataemp = data.strftime("%Y-%m-%d")
+            error = None
+
+            if not cdLivro:
+                error = 'Livro is required.'
+            elif not cpfCliente:
+                error = 'CPF is required.'
+
+            if error is None:
+                try:
+                    cur.execute(
+                        "INSERT INTO reservas (cod_livro, CPF, data_reserva) VALUES (%s, %s, %s)",
+                        (cdLivro, cpfCliente, dataemp),
+                    )
+                    db.commit()
+                except Exception as e:
+                    print(e)
+                    error = f"falha ao criar reserva"
+                else:
+                    return redirect(url_for("home"))
+
+            flash(error)
+
+    return render_template('cadastro/reserva.html')
+
+
 
 @bp.route('/exemplar', methods=('GET', 'POST'))
 def exemplar():
