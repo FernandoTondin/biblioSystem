@@ -35,3 +35,15 @@ class database_acces:
 
     def get_database(self):
         return self.database
+
+
+class email_access:
+    def __init__(self):
+        self.email = ""
+        self.password = ""
+    
+    def get_address(self):
+        return self.email
+    
+    def get_password(self):
+        return self.password
