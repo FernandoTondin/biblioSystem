@@ -38,11 +38,11 @@
                 <form method="post">
                     <input type="text" name="cod" value="{{ post['cod_emprestimo'] }}" style="display: none;">
                     {% if post['data_devol'] is none %}
-                        <input type="submit" value="❌" name="STATUS" disabled>
-                        <input type="submit" value="🔄" name="devolver">
-                        <input type="submit" value="🗑️" name="deletar">
+                        <input type="submit" value="❌" name="STATUS" disabled title="STATUS: EMPRESTADO">
+                        <input type="submit" value="🔄" name="devolver" title="DEVOLVER">
+                        <input type="submit" value="🗑️" name="deletar" title="DELETAR">
                     {% else %}
-                        <input type="submit" value="✔️" name="STATUS" disabled>
+                        <input type="submit" value="✔️" name="STATUS" disabled title="STATUS: DEVOLVIDO">
                     {% endif %}
                 </form>
             </td>

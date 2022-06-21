@@ -13,6 +13,9 @@
         {% if g.user %}
           <li><span>{{ g.user['usuario'] }}</span>
           <li><a style="text-align:center; width: auto;" href="{{ url_for('auth.logout') }}">Log Out</a>
+          {% if g.user['admin'] %}
+            <li><a style="text-align:center; width: auto;" href="{{ url_for('auth.register') }}">registrar</a>
+          {% endif %}
         {% else %}
           {%if request.path != '/auth/login' %}
             <li><a style="text-align:center; width: auto;" href="{{ url_for('auth.login') }}">Log In</a>

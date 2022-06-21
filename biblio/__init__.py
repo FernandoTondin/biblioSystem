@@ -3,9 +3,11 @@ import os
 from flask import Flask, render_template
 
 from biblio.credentials import database_acces
+from biblio.email import send_email
 
 
 def create_app(test_config=None):
+    
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(

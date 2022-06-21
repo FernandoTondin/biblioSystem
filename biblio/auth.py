@@ -26,7 +26,7 @@ def register():
         if error is None:
             try:
                 cur.execute(
-                    "INSERT INTO user (usuario, senha) VALUES (%s, %s)",
+                    "INSERT INTO user (usuario, senha, admin) VALUES (%s, %s, 0)",
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
@@ -61,6 +61,11 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
+            session['biblioteca'] = user['usuario']
+            if user['boolAdmin']:
+                session['admin'] = True
+            else:
+                session['admin'] = False
             return redirect(url_for('home'))
 
         flash(error)

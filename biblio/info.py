@@ -36,15 +36,15 @@ def livro():
             error = None
 
             if not titulo:
-                error = 'titulo is required.'
+                error = 'favor inserir título.'
             elif not autor:
-                error = 'autor is required.'
+                error = 'favor inserir autor.'
             elif not volume:
-                error = 'volume is required.'
+                error = 'favor inserir volume.'
             elif not edicao:
-                error = 'edicao is required.'
+                error = 'favor inserir ediço.'
             elif not publicacao:
-                error = 'publicacao is required.'
+                error = 'favor inserir ano de publicação.'
 
             if error is None:
                 try:
@@ -62,6 +62,9 @@ def livro():
 
             flash(error)
         
+        if "cancelar" in request.form.keys():
+            return redirect(url_for('view.livro'),code=307)
+            
     return render_template('info/livro.html')
 
 @bp.route('/cliente', methods=('GET', 'POST'))
@@ -85,21 +88,24 @@ def cliente():
             nome = request.form['nome']
             cpf = request.form['cpf']
             end = request.form['descEnderecoCliente']
+            email = request.form['dsc_email_cliente']
             error = None
 
             if not nome:
-                error = 'nome is required.'
+                error = 'Favor inserir nome.'
             elif not cpf:
-                error = 'cpf is required.'
+                error = 'Favor preencher cpf.'
             elif not end:
-                error = 'endereco is required.'
+                error = 'Favor preencher endereco.'
+            elif not email:
+                error = 'Favor preencher email.'
 
             if error is None:
                 try:
                     cur.execute(
                         'UPDATE clientes '
-                        'SET nome_cliente = %s, CPF= %s, dsc_endereco_cliente= %s '
-                        'WHERE cod_cliente = %s;',(nome, cpf, end,cod)
+                        'SET nome_cliente = %s, CPF= %s, dsc_endereco_cliente= %s dsc_email_cliente = %s '
+                        'WHERE cod_cliente = %s;',(nome, cpf, end,email,cod)
                     )
                     db.commit()
                 except Exception as e: 
@@ -110,5 +116,8 @@ def cliente():
                     return redirect(url_for("view.cliente"))
 
             flash(error)
+
+        if "cancelar" in request.form.keys():
+            return redirect(url_for('view.cliente'),code=307)
 
     return render_template('info/cliente.html')

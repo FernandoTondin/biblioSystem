@@ -36,25 +36,29 @@
             <td>{{ post['anoPublic'] }}</td>
             <td>
                 <form method="post">
+                    <input type="text" name="cod" value="{{ post['cod_livro'] }}" style="display: none;">
                     {% if post['DISP'] == 0 %}
-                        <input type="submit" value="-" name="remover exemplar" disabled>
+                    <input type="submit" value="-" name="remover_exemplar" disabled title="REMOVER EXEMPLAR">
                     {% else %}
-                        <input type="submit" value="-" name="remover exemplar">
+                    {% if post['QNT'] == 1 %}
+                    <input type="submit" value="-" name="remover_exemplar" disabled title="REMOVER EXEMPLAR">
+                    {% else %}
+                    <input type="submit" value="-" name="remover_exemplar" title="REMOVER EXEMPLAR">
+                    {% endif %}
                     {% endif %}
                     {{ post['QNT'] }}
-                    <input type="text" name="cod" value="{{ post['cod_livro'] }}" style="display: none;">
-                    <input type="submit" value="+" name="adicionar exemplar">
+                    <input type="submit" value="+" name="adicionar_exemplar" title="ADICIONAR EXEMPLAR">
             </td>
             <td>{{ post['DISP'] }}</td>
             <td>
                 <form method="post">
                     <input type="text" name="cod" value="{{ post['cod_livro'] }}" style="display: none;">
-                    <input type="submit" value="📝" name="info">
-                    <input type="submit" value="❌" name="deletar">
+                    <input type="submit" value="📝" name="info" title="INFORMAÇÕES">
+                    <input type="submit" value="❌" name="deletar" title="DELETAR">
                     {% if post['DISP'] == 0 %}
-                    <input type="submit" value="⚠️" name="reservar">
+                    <input type="submit" value="⚠️" name="reservar"  title="RESERVAR">
                     {% else %}
-                        <input type="submit" value="✅" name="emprestar">
+                        <input type="submit" value="✅" name="emprestar"  title="EMPRESTAR">
                     {% endif %}
                 </form>
             </td>

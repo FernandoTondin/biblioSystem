@@ -2,13 +2,13 @@ import sqlite3
 import mysql.connector
 
 import click
-from flask import current_app, g
+from flask import current_app, g, session
 from flask.cli import with_appcontext
 
 
 def get_db():
     if 'db' not in g:
-        
+
         mydb = mysql.connector.connect(
             host=current_app.config['MYSQL_HOST'],
             user=current_app.config['MYSQL_USER'],
@@ -18,24 +18,32 @@ def get_db():
         mycursor = mydb.cursor(buffered=True)
         mycursor.execute("SHOW DATABASES")
 
+        if 'admin' in session:
+            if session.get('admin'):
+                db = current_app.config['MYSQL_DB']
+            else:
+                db = current_app.config['MYSQL_DB']
+        else:
+            db = current_app.config['MYSQL_DB']
+
 
         for x in mycursor:
-            if x == (current_app.config['MYSQL_DB'],):
+            if x == (db,):
                 mycursor.close()
                 g.db = mysql.connector.connect(
                     host=current_app.config['MYSQL_HOST'],
                     user=current_app.config['MYSQL_USER'],
                     password=current_app.config['MYSQL_PASSWORD'],
-                    database=current_app.config['MYSQL_DB']
+                    database=db
                 )
                 return g.db
-        mycursor.execute("CREATE DATABASE "+current_app.config['MYSQL_DB'])
+        mycursor.execute("CREATE DATABASE "+db)
         mycursor.close()
         g.db = mysql.connector.connect(
             host=current_app.config['MYSQL_HOST'],
             user=current_app.config['MYSQL_USER'],
             password=current_app.config['MYSQL_PASSWORD'],
-            database=current_app.config['MYSQL_DB']
+            database=db
         )
         return g.db
 

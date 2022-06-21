@@ -33,11 +33,11 @@
             <td>
                 <form method="post">
                     <input type="text" name="cod" value="{{ post['cod_reserva'] }}" style="display: none;">
-                    <input type="submit" value="❌" name="deletar">
-                    {% if post['cod_exemplar'] != '' %}
-                    <input type="submit" value="⚠️" name="reservar" disabled>
+                    <input type="submit" value="❌" name="deletar" title="DELETAR">
+                    {% if post['cod_exemplar'] != None %}
+                    <input type="submit" value="✅" name="emprestar" title="EMPRESTAR">
                     {% else %}
-                        <input type="submit" value="✅" name="emprestar">
+                    <input type="submit" value="⚠️" name="reservar" disabled title="EXEMPLAR INDISPONÍVEL">
                     {% endif %}
                 </form>
             </td>

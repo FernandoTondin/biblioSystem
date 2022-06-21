@@ -24,15 +24,15 @@ def livro():
         error = None
 
         if not titulo:
-            error = 'titulo is required.'
+            error = 'favor inserir título.'
         elif not autor:
-            error = 'autor is required.'
+            error = 'favor inserir autor.'
         elif not volume:
-            error = 'volume is required.'
+            error = 'favor inserir volume.'
         elif not edicao:
-            error = 'edicao is required.'
+            error = 'favor inserir ediço.'
         elif not publicacao:
-            error = 'publicacao is required.'
+            error = 'favor inserir ano de publicação.'
 
         if error is None:
             try:
@@ -64,6 +64,7 @@ def cliente():
         nome = request.form['nome']
         cpf = request.form['cpf']
         end = request.form['descEnderecoCliente']
+        email = request.form['dsc_email_cliente']
         db = get_db()
         error = None
 
@@ -73,12 +74,14 @@ def cliente():
             error = 'cpf is required.'
         elif not end:
             error = 'endereco is required.'
+        elif not email:
+            error = 'endereco is required.'
 
         if error is None:
             try:
                 cur.execute(
-                    "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente) VALUES (%s, %s, %s)",
-                    (nome, cpf, end),
+                    "INSERT INTO clientes (nome_cliente, CPF, dsc_endereco_cliente, dsc_email_cliente) VALUES (%s, %s, %s, %s)",
+                    (nome, cpf, end, email),
                 )
                 db.commit()
             except db.IntegrityError:
@@ -102,21 +105,21 @@ def emprestimo():
             ' WHERE cod_livro = %s',
             (cod,),
             )
-            posts =cur.fetchall()
+            posts = cur.fetchall()
             return render_template('cadastro/emprestimo.html', posts=posts)
         else:
             cdLivro = request.form['cdLivro']
             cpfCliente = request.form['cpfCliente']
             data = dt.date.today()
             dataemp = data.strftime("%Y-%m-%d")
-            prazo = data + dt.timedelta(5)
+            prazo = data + dt.timedelta(days=5)
             prazoemp = prazo.strftime("%Y-%m-%d")
             error = None
 
             if not cdLivro:
-                error = 'Livro is required.'
+                error = 'favor inserir o Livro a ser emprestado.'
             elif not cpfCliente:
-                error = 'CPF is required.'
+                error = 'Favor inserir o CPF do cliente.'
 
             if error is None:
                 disp = False
@@ -177,9 +180,9 @@ def reserva():
             error = None
 
             if not cdLivro:
-                error = 'Livro is required.'
+                error = 'Favor inserir o Livro a ser reservado.'
             elif not cpfCliente:
-                error = 'CPF is required.'
+                error = 'Favor inserir o CPF do cliente.'
 
             if error is None:
                 try:
